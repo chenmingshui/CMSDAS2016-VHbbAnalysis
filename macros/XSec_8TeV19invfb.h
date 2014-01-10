@@ -3,11 +3,11 @@
 #include "TCut.h"
 
 // Skim to reduce ntuple size
-const TCut skimZll      = "(Vtype==0||Vtype==1) && V.pt>50";
-const TCut skimWln      = "(Vtype==2||Vtype==3) && V.pt>130";
-const TCut skimZnn      = "(Vtype==2||Vtype==3||Vtype==4) && METtype1corr.et>150";
+const TCut skimZll      = "(Vtype==0||Vtype==1) && V.pt>120 && hJet_pt[0]>20 && hJet_pt[1]>20";
+const TCut skimWln      = "(Vtype==2||Vtype==3) && V.pt>130 && hJet_pt[0]>30 && hJet_pt[1]>30";
+const TCut skimZnn      = "(Vtype==2||Vtype==3||Vtype==4) && METtype1corr.et>150 && hJet_pt[0]>30 && hJet_pt[1]>30";
                            //< Znn includes single lepton channels to use for control regions
-const TCut skimHbb      = "H.HiggsFlag==1 && abs(hJet_eta[0])<2.5 && abs(hJet_eta[1])<2.5 && hJet_id[0]==1 && hJet_id[1]==1 && hJet_puJetIdL[0]>0 && hJet_puJetIdL[1]>0 && hJet_pt[0]>20 && hJet_pt[1]>20 && hJet_csv[0]>0 && hJet_csv[1]>0";
+const TCut skimHbb      = "H.HiggsFlag==1 && abs(hJet_eta[0])<2.5 && abs(hJet_eta[1])<2.5 && hJet_id[0]==1 && hJet_id[1]==1 && hJet_puJetIdL[0]>0 && hJet_puJetIdL[1]>0 && hJet_csv[0]>0 && hJet_csv[1]>0";
 
 // Select events that pass triggers
 //    Single muon triggers
@@ -29,14 +29,14 @@ const TCut skimHbb      = "H.HiggsFlag==1 && abs(hJet_eta[0])<2.5 && abs(hJet_et
 //    "HLT_DiCentralPFJet30_PFMET80_BTagCSV07_v.*", #41
 //    "HLT_PFMET150_v.*", #42
 //    "HLT_DiCentralPFJet30_PFMHT80_v.*", #49
-const TCut trigZmm      = "EVENT.json==1 && Vtype==0 && (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0)";
-const TCut trigZee      = "EVENT.json==1 && Vtype==1 && (triggerFlags[5]>0 || triggerFlags[6]>0)";
-const TCut trigWmn      = "EVENT.json==1 && Vtype==2 && (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0)";
-const TCut trigWen      = "EVENT.json==1 && Vtype==3 && (triggerFlags[44]>0)";
+const TCut trigZmm      = "EVENT.json==1 && Vtype==0 && (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0) && hbhe";
+const TCut trigZee      = "EVENT.json==1 && Vtype==1 && (triggerFlags[5]>0 || triggerFlags[6]>0) && hbhe";
+const TCut trigWmn      = "EVENT.json==1 && Vtype==2 && (triggerFlags[14]>0 || triggerFlags[21]>0 || triggerFlags[22]>0 || triggerFlags[23]>0) && hbhe";
+const TCut trigWen      = "EVENT.json==1 && Vtype==3 && (triggerFlags[44]>0) && hbhe";
 const TCut trigZnn      = "EVENT.json==1 && (Vtype==2||Vtype==3||Vtype==4) && ( (190456<=EVENT.run && EVENT.run<=193752 && (triggerFlags[42]==1 || triggerFlags[49]==1 || triggerFlags[40]==1)) || (193752<=EVENT.run && EVENT.run<=208686 && (triggerFlags[42]==1 || triggerFlags[39]==1 || triggerFlags[41]==1)) ) && hbhe && ecalFlag && cschaloFlag && hcallaserFlag && trackingfailureFlag && eebadscFlag && !isBadHcalEvent";
                           //< Znn also uses MET filters
 
-// Exclude bad data runs
+// Exclude bad runs in Prompt data
 const TCut exclRuns     = "(EVENT.run != 201191) && (EVENT.run < 207883 || EVENT.run > 208307)";
                           //< pass "Golden" JSON selection but exclude runs with pixel misalignment that affects b-tagging
 

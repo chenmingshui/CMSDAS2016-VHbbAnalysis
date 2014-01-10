@@ -19,6 +19,11 @@
 
 #include "XSec_8TeV19invfb.h"
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
+
 // _____________________________________________________________________________
 // This class reads the ntuples and applies basic cuts to reduce loading time.
 class Events {
@@ -103,8 +108,8 @@ void MakePlot(TTree * tree, TString var, TCut cut,
               TString plotname="plot", TString plotdir="",
               TString options="plotLog:plotNorm") {
 
-    std::clog << "MakePlots(): Plot var = " << var << std::endl;
-    std::clog << "MakePlots(): Using cut = " << cut << std::endl;
+    std::clog << "MakePlots(): Plot var: " << var << std::endl;
+    std::clog << "MakePlots(): Using cut: " << cut << std::endl;
 
     bool plotLog      = options.Contains("plotLog")    && (!options.Contains("!plotLog"));
     bool plotNorm     = options.Contains("plotNorm")   && (!options.Contains("!plotNorm"));
@@ -142,8 +147,8 @@ void MakePlot2(TTree * tree1, TTree * tree2, TString var, TCut cut,
                TString plotname="plot", TString plotdir="",
                TString options="plotLog:plotNorm") {
 
-    std::clog << "MakePlots(): Plot var = " << var << std::endl;
-    std::clog << "MakePlots(): Using cut = " << cut << std::endl;
+    std::clog << "MakePlots(): Plot var: " << var << std::endl;
+    std::clog << "MakePlots(): Using cut: " << cut << std::endl;
 
     bool plotLog      = options.Contains("plotLog")    && (!options.Contains("!plotLog"));
     bool plotNorm     = options.Contains("plotNorm")   && (!options.Contains("!plotNorm"));
@@ -193,8 +198,8 @@ void MakePlots(const Events * ev, TString var,
                TString plotname="plot", TString plotdir="",
                TString options="printStat:printCard:plotUOflow:plotSig:plotData:plotLog") {
 
-    std::clog << "MakePlots(): Plot var = " << var << std::endl;
-    std::clog << "MakePlots(): Using cutmc = " << cutmc << ", cutdata = " << cutdata << std::endl;
+    std::clog << "MakePlots(): Plot var: " << var << std::endl;
+    std::clog << "MakePlots(): Using cutmc: " << cutmc << ", cutdata: " << cutdata << std::endl;
 
     // Parse options
     bool printStat    = options.Contains("printStat")  && (!options.Contains("!printStat"));
@@ -240,13 +245,13 @@ void MakePlots(const Events * ev, TString var,
     ev->ZjHF->Project("ZjHF", var, cutmc * Form("%5f * PUweight", ev->lumi_ZjHF) * Form("%f", ev->sf_ZjHF));
     std::clog << "... DONE: project ZjHF, scaled by " << ev->sf_ZjHF << "." << std::endl;
 
-    ev->TT->Project("TT", var, cutmc * Form("%5f * PUweight", ev->lumi_TT) * Form("%f", ev->sf_TT));
-    std::clog << "... DONE: project TT, scaled by " << ev->sf_TT << "." << std::endl;
+    //ev->TT->Project("TT", var, cutmc * Form("%5f * PUweight", ev->lumi_TT) * Form("%f", ev->sf_TT));
+    //std::clog << "... DONE: project TT, scaled by " << ev->sf_TT << "." << std::endl;
 
-    //ev->TT_fl->Project( "TT", var, cutmc * Form("%5f * PUweight", ev->lumi_TTfl) * Form("%f", ev->sf_TT));
-    //ev->TT_sl->Project("+TT", var, cutmc * Form("%5f * PUweight", ev->lumi_TTsl) * Form("%f", ev->sf_TT));
-    //ev->TT_hd->Project("+TT", var, cutmc * Form("%5f * PUweight", ev->lumi_TThd) * Form("%f", ev->sf_TT));
-    //std::clog << "... DONE: project TT, scaled by " << cutsf << "." << std::endl;
+    ev->TT_fl->Project( "TT", var, cutmc * Form("%5f * PUweight", ev->lumi_TT_fl) * Form("%f", ev->sf_TT));
+    ev->TT_sl->Project("+TT", var, cutmc * Form("%5f * PUweight", ev->lumi_TT_sl) * Form("%f", ev->sf_TT));
+    ev->TT_hd->Project("+TT", var, cutmc * Form("%5f * PUweight", ev->lumi_TT_hd) * Form("%f", ev->sf_TT));
+    std::clog << "... DONE: project TT, scaled by " << ev->sf_TT << "." << std::endl;
 
     ev->ST_T_s    ->Project( "ST" , var, cutmc * Form("%5f * PUweight", ev->lumi_ST_T_s));
     ev->ST_T_t    ->Project("+ST" , var, cutmc * Form("%5f * PUweight", ev->lumi_ST_T_t));
@@ -286,13 +291,13 @@ void MakePlots(const Events * ev, TString var,
 
     // Setup histogram stack
     THStack * hs = new THStack("hs", "");
-    hs->Add(hVV);
     hs->Add(hST);
     hs->Add(hTT);
     hs->Add(hZjLF);
     hs->Add(hZjHF);
     hs->Add(hWjLF);
     hs->Add(hWjHF);
+    hs->Add(hVV);
     if (plotSig)  hs->Add(hVH);
 
     if (printStat) {
@@ -306,10 +311,6 @@ void MakePlots(const Events * ev, TString var,
         std::cout << Form("B                      = %.3f", nB) << std::endl;
         std::cout << Form("S/sqrt(S+B)            = %.5f", signif_simple) << std::endl;
         std::cout << Form("S/(sqrt(B)+a/2+ 0.2*B) = %.5f", signif_punzi) << std::endl;
-    }
-
-    if (printCard) {
-
     }
 
     if (printCard) {
@@ -412,7 +413,7 @@ void MakePlots(const Events * ev, TString var,
     set_style(hZjHF, "ZjHFb");
     set_style(hTT, "TT");
     set_style(hST, "ST");
-    set_style(hVV, "VV");
+    set_style(hVV, "VVHF");
     set_style(hdata_obs, "data_obs");
 
     // Setup auxiliary histograms (ratios, errors, etc)
@@ -632,14 +633,34 @@ void MakePlots(const Events * ev, TString var,
 }
 
 //______________________________________________________________________________
-inline float triggercorrMET(float met)
-{
+inline float deltaPhi(float phi1, float phi2) {
+  float result = phi1 - phi2;
+  while (result > float(M_PI)) result -= float(2.0*M_PI);
+  while (result <= -float(M_PI)) result += float(2.0*M_PI);
+  return result;
+}
+
+inline float deltaR(float eta1, float phi1, float eta2, float phi2) {
+  float deta = eta1 - eta2;
+  float dphi = deltaPhi(phi1, phi2);
+  return sqrt(deta*deta + dphi*dphi);
+}
+
+//______________________________________________________________________________
+inline float triggercorrMET(float met) {
     if (met < 110.)  return 0.940;
     if (met < 120.)  return 0.977;
     if (met < 130.)  return 0.984;
     if (met < 140.)  return 0.988;
     if (met < 150.)  return 1.000;
     return 1.;
+}
+
+inline float deltaPhiMETjets(float metphi, float jetphi, float jetpt, float jeteta, float minpt=25, float maxeta=4.5) {
+    if(jetpt <= minpt || TMath::Abs(jeteta) >= maxeta)
+        return 999.;
+    else
+        return fabs(deltaPhi(metphi, jetphi));
 }
 
 //______________________________________________________________________________
@@ -718,7 +739,6 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     // Monte Carlo______________________________________________________________
     // NOTE: for Zll, use the default "ZllH"
     // NOTE: for Znn, change "ZllH" to "ZnnH"
-    // (ignore this if patched)
     if (loadZH) {
         TChain ZH_(treename);
         //ZH_.Add(indir + prefix + Form("ZllH%i", massH) + suffix);
@@ -753,25 +773,23 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     }
 
     if (loadZJ) {
-        // NOTE: for Zll, use the default "DYJetsM50"
-        // NOTE: for Znn, change "DYJetsM50" to "ZJetsPtZ100"
-        // (ignore this if patched)
+        // NOTE: for Zll, use the default "DYJetsPtZ100"
+        // NOTE: for Znn, change "DYJetsPtZ100" to "ZJetsPtZ100"
         TChain ZjLF_(treename);
-        //ZjLF_.Add(indir + prefix + "DYJetsM50" + suffix);
+        //ZjLF_.Add(indir + prefix + "DYJetsPtZ100" + suffix);
         //ZjLF = (TTree *) ZjLF_.CopyTree(cutmc_all + cutLF);
-        //lumi_ZjLF = lumis["DYJetsM50"];
+        //lumi_ZjLF = lumis["DYJetsPtZ100"];
         ZjLF_.Add(indir + prefix + "ZJetsPtZ100" + suffix);
         ZjLF = (TTree *) ZjLF_.CopyTree(cutmc_all + cutLF);
         lumi_ZjLF = lumis["ZJetsPtZ100"];
         std::clog << "... DONE: ZjLF copy tree. N=" << ZjLF->GetEntries() << std::endl;
 
-        // NOTE: for Zll, use the default "DYJetsM50"
-        // NOTE: for Znn, change "DYJetsM50" to "ZJetsPtZ100"
-        // (ignore this if patched)
+        // NOTE: for Zll, use the default "DYJetsPtZ100"
+        // NOTE: for Znn, change "DYJetsPtZ100" to "ZJetsPtZ100"
         TChain ZjHF_(treename);
-        //ZjHF_.Add(indir + prefix + "DYJetsM50" + suffix);
+        //ZjHF_.Add(indir + prefix + "DYJetsPtZ100" + suffix);
         //ZjHF = (TTree *) ZjHF_.CopyTree(cutmc_all + cutHF);
-        //lumi_ZjHF = lumis["DYJetsM50"];
+        //lumi_ZjHF = lumis["DYJetsPtZ100"];
         ZjHF_.Add(indir + prefix + "ZJetsPtZ100" + suffix);
         ZjHF = (TTree *) ZjHF_.CopyTree(cutmc_all + cutHF);
         lumi_ZjHF = lumis["ZJetsPtZ100"];
@@ -779,29 +797,29 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     }
 
     if (loadTT) {
-        TChain TT_(treename);
-        TT_.Add(indir + prefix + "TTPowheg" + suffix);
-        TT = (TTree *) TT_.CopyTree(cutmc_all);
-        lumi_TT = lumis["TTPowheg"];
-        std::clog << "... DONE: TT copy tree. N=" << TT->GetEntries() << std::endl;
+        //TChain TT_(treename);
+        //TT_.Add(indir + prefix + "TTPowheg" + suffix);
+        //TT = (TTree *) TT_.CopyTree(cutmc_all);
+        //lumi_TT = lumis["TTPowheg"];
+        //std::clog << "... DONE: TT copy tree. N=" << TT->GetEntries() << std::endl;
 
-        //TChain TT_fl_(treename);
-        //TT_fl_.Add(indir + prefix + "TTFullLeptMG" + suffix);
-        //TT_fl = (TTree *) TT_fl_.CopyTree(cutmc_all);
-        //lumi_TT_fl = lumis["TTFullLeptMG"];
-        //std::clog << "... DONE: TT_fl copy tree. N=" << TT_fl->GetEntries() << std::endl;
+        TChain TT_fl_(treename);
+        TT_fl_.Add(indir + prefix + "TTFullLeptMG" + suffix);
+        TT_fl = (TTree *) TT_fl_.CopyTree(cutmc_all);
+        lumi_TT_fl = lumis["TTFullLeptMG"];
+        std::clog << "... DONE: TT_fl copy tree. N=" << TT_fl->GetEntries() << std::endl;
 
-        //TChain TT_sl_(treename);
-        //TT_sl_.Add(indir + prefix + "TTSemiLeptMG" + suffix);
-        //TT_sl = (TTree *) TT_sl_.CopyTree(cutmc_all);
-        //lumi_TT_sl = lumis["TTSemiLeptMG"];
-        //std::clog << "... DONE: TT_sl copy tree. N=" << TT_sl->GetEntries() << std::endl;
+        TChain TT_sl_(treename);
+        TT_sl_.Add(indir + prefix + "TTSemiLeptMG" + suffix);
+        TT_sl = (TTree *) TT_sl_.CopyTree(cutmc_all);
+        lumi_TT_sl = lumis["TTSemiLeptMG"];
+        std::clog << "... DONE: TT_sl copy tree. N=" << TT_sl->GetEntries() << std::endl;
 
-        //TChain TT_hd_(treename);
-        //TT_hd_.Add(indir + prefix + "TTHadronicMG" + suffix);
-        //TT_hd = (TTree *) TT_hd_.CopyTree(cutmc_all);
-        //lumi_TT_hd = lumis["TTHadronic"];
-        //std::clog << "... DONE: TT_hd copy tree. N=" << TT_hd->GetEntries() << std::endl;
+        TChain TT_hd_(treename);
+        TT_hd_.Add(indir + prefix + "TTHadronicMG" + suffix);
+        TT_hd = (TTree *) TT_hd_.CopyTree(cutmc_all);
+        lumi_TT_hd = lumis["TTHadronic"];
+        std::clog << "... DONE: TT_hd copy tree. N=" << TT_hd->GetEntries() << std::endl;
     }
 
     if (loadST) {
@@ -867,7 +885,6 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     // NOTE: for Wen, change both "SingleMu" to "SingleEl"
     // NOTE: for Zee, change both "SingleMu" to "DoubleEl"
     // NOTE: for Znn, change both "SingleMu" to "MET"
-    // (ignore this if patched)
     if (loadData) {
         TChain data_obs_(treename);
         //data_obs_.Add(indir + prefix + "SingleMu_ReReco" + suffix);
@@ -888,7 +905,6 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
 void set_style(TH1 * h, const TString& p)
 {
     if (p == "VH") {
-        h->SetLineColor  (2);
         h->SetFillColor  (2);
         h->SetMarkerColor(2);
     } else if (p == "data_obs" || p == "Data") {
