@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 
+#include "TSystem.h"
 #include "TCanvas.h"
 #include "TChain.h"
 #include "TFile.h"
@@ -196,14 +197,14 @@ void MakePlots(const Events * ev, TString var,
                TCut cutmc, TCut cutdata,
                TString title, int nbinsx, double xlow, double xup,
                TString plotname="plot", TString plotdir="",
-               TString options="printStat:printCard:plotUOflow:plotSig:plotData:plotLog") {
+               TString options="printStat:plotSig:plotData:plotLog") {
 
     std::clog << "MakePlots(): Plot var: " << var << std::endl;
     std::clog << "MakePlots(): Using cutmc: " << cutmc << ", cutdata: " << cutdata << std::endl;
 
     // Parse options
     bool printStat    = options.Contains("printStat")  && (!options.Contains("!printStat"));
-    bool printCard    = options.Contains("printCard")  && (!options.Contains("!printCard"));
+    //bool printCard    = options.Contains("printCard")  && (!options.Contains("!printCard"));
     //bool plotUOflow   = options.Contains("plotUOflow") && (!options.Contains("!plotUOflow"));  // FIXME: not yet implemented
     bool plotSig      = options.Contains("plotSig")    && (!options.Contains("!plotSig"));
     bool plotData     = options.Contains("plotData")   && (!options.Contains("!plotData"));
@@ -311,84 +312,6 @@ void MakePlots(const Events * ev, TString var,
         std::cout << Form("B                      = %.3f", nB) << std::endl;
         std::cout << Form("S/sqrt(S+B)            = %.5f", signif_simple) << std::endl;
         std::cout << Form("S/(sqrt(B)+a/2+ 0.2*B) = %.5f", signif_punzi) << std::endl;
-    }
-
-    if (printCard) {
-        std::clog << "MakePlots(): Printing datacard..." << std::endl;
-
-        // NOTE: change this to your channel
-        //TString channel = "Zmm_8TeV";
-        //TString channel = "Zee_8TeV";
-        TString channel = "Wmn_8TeV";
-        //TString channel = "Wen_8TeV";
-        //TString channel = "Znn_8TeV";
-
-        TString dcname  = "vhbb_"+channel+".txt";
-        TString wsname  = "vhbb_"+channel+".root";
-        int jmax = 8;
-
-        std::ofstream dc;
-        dc.setf(ios::fixed,ios::floatfield);
-        dc.precision(3);
-        dc.open(dcname.Data());
-
-        dc << "imax 1 number of channels" << std::endl;
-        dc << "jmax " << jmax << " number of processes minus 1 ('*' = automatic)" << std::endl;
-        dc << "kmax * number of nuisance parameters (sources of systematical uncertainties)" << std::endl;
-        dc << "-----------------------------------" << std::endl;
-        //dc << "shapes * * " << wsname << " $CHANNEL:$PROCESS $CHANNEL:$PROCESS_$SYSTEMATIC" << std::endl;
-        //dc << "-----------------------------------" << std::endl;
-        dc << "bin         " << channel << std::endl;
-        dc << "observation " << hmc_exp->Integral() << std::endl;
-        //dc << "observation " << hdata_obs->Integral() << std::endl;
-        dc << "#prediction " << hmc_exp->Integral() << std::endl;
-        dc << "-----------------------------------" << std::endl;
-
-        dc << "bin         "; for (int j=0; j!=jmax+1; j++)  dc << channel << " "; dc << std::endl;
-        dc << "process     ZH         WH         WjLF       WjHF       ZjLF       ZjHF       TT         ST         VV         " << std::endl;
-        dc << "process     -1         0          1          2          3          4          5          6          7          " << std::endl;
-
-        dc << "rate        " << setw(10) << right << hZH->Integral() << " "
-                             << setw(10) << right << hWH->Integral() << " "
-                             << setw(10) << right << hWjLF->Integral() << " "
-                             << setw(10) << right << hWjHF->Integral() << " "
-                             << setw(10) << right << hZjLF->Integral() << " "
-                             << setw(10) << right << hZjHF->Integral() << " "
-                             << setw(10) << right << hTT->Integral() << " "
-                             << setw(10) << right << hST->Integral() << " "
-                             << setw(10) << right << hVV->Integral() << std::endl;
-        dc.precision(2);
-        dc << "-----------------------------------" << std::endl;
-        dc << "" << std::endl;
-        dc << "#################################### #####  ZH    WH    WjLF  WjHF  ZjLF  ZjHF  TT    ST    VV    " << std::endl;
-        dc << "lumi_8TeV                            lnN    1.026 1.026 -     -     -     -     -     1.026 1.026 " << std::endl;
-        dc << "pdf_qqbar                            lnN    1.01  1.01  -     -     -     -     -     -     1.01  " << std::endl;
-        dc << "pdf_gg                               lnN    -     -     -     -     -     -     -     1.01  -     " << std::endl;
-        dc << "QCDscale_VH                          lnN    1.04  1.04  -     -     -     -     -     -     -     " << std::endl;
-        dc << "QCDscale_ttbar                       lnN    -     -     -     -     -     -     -     1.06  -     " << std::endl;
-        dc << "QCDscale_VV                          lnN    -     -     -     -     -     -     -     -     1.04  " << std::endl;
-        dc << "QCDscale_QCD                         lnN    -     -     -     -     -     -     -     -     -     " << std::endl;
-        dc << "CMS_vhbb_boost_EWK_8TeV              lnN    1.05  1.10  -     -     -     -     -     -     -     " << std::endl;
-        dc << "CMS_vhbb_boost_QCD_8TeV              lnN    1.10  1.10  -     -     -     -     -     -     -     " << std::endl;
-        dc << "CMS_vhbb_ST                          lnN    -     -     -     -     -     -     -     1.25  -     " << std::endl;
-        dc << "CMS_vhbb_VV                          lnN    -     -     -     -     -     -     -     -     1.25  " << std::endl;
-        dc << "CMS_vhbb_eff_b                       lnN    1.07  1.07  1.07  1.07  1.07  1.07  1.07  1.07  1.07  " << std::endl;
-        dc << "CMS_vhbb_fake_b_8TeV                 lnN    1.03  1.03  1.03  1.03  1.03  1.03  1.03  1.03  1.03  " << std::endl;
-        dc << "CMS_vhbb_res_j                       lnN    1.05  1.05  1.05  1.05  1.05  1.05  1.05  1.05  1.05  " << std::endl;
-        dc << "CMS_vhbb_scale_j                     lnN    1.05  1.05  1.05  1.05  1.05  1.05  1.05  1.05  1.05  " << std::endl;
-        dc << "CMS_vhbb_WjLF_SF_" << channel << "            lnN    -     -     1.08  -     -     -     -     -     -     " << std::endl;
-        dc << "CMS_vhbb_WjHF_SF_" << channel << "            lnN    -     -     -     1.20  -     -     -     -     -     " << std::endl;
-        dc << "CMS_vhbb_ZjLF_SF_" << channel << "            lnN    -     -     -     -     1.08  -     -     -     -     " << std::endl;
-        dc << "CMS_vhbb_ZjHF_SF_" << channel << "            lnN    -     -     -     -     -     1.20  -     -     -     " << std::endl;
-        dc << "CMS_vhbb_TT_SF_" << channel << "              lnN    -     -     -     -     -     -     1.07  -     -     " << std::endl;
-        if (channel == "Zmm_8TeV" || channel == "Wmn_8TeV")
-            dc << "CMS_vhbb_eff_m                       lnN    1.01  1.01  -     -     -     -     -     1.01  1.01  " << std::endl;
-        else if (channel == "Zee_8TeV" || channel == "Wen_8TeV")
-            dc << "CMS_vhbb_eff_e                       lnN    1.01  1.01  -     -     -     -     -     1.01  1.01  " << std::endl;
-        else if (channel == "Znn_8TeV")
-            dc << "CMS_vhbb_trigger_MET                 lnN    1.03  1.03  -     -     -     -     -     1.03  1.03  " << std::endl;
-        dc << "#################################### #####  ZH    WH    WjLF  WjHF  ZjLF  ZjHF  TT    ST    VV    " << std::endl;
-        dc.close();
     }
 
     // Setup canvas and pads
@@ -524,6 +447,7 @@ void MakePlots(const Events * ev, TString var,
 
     staterr->Draw("e2 same");
     if (plotSig) {
+        hVH->SetLineColor(2);
         hVH->SetLineWidth(3);
         hVH->SetFillColor(0);
         hVH->Draw("hist same");
@@ -593,9 +517,16 @@ void MakePlots(const Events * ev, TString var,
     gPad->Print(plotdir+plotname+".pdf");
 
     TFile* outrootfile = TFile::Open(plotdir+plotname+".root", "RECREATE");
-    for (Int_t i = 0; i < hs->GetHists()->GetSize(); i++) {
-        hs->GetHists()->At(i)->Write();
-    }
+    hZH->Write();
+    hWH->Write();
+    hWjLF->Write();
+    hWjHF->Write();
+    hZjLF->Write();
+    hZjHF->Write();
+    hTT->Write();
+    hST->Write();
+    hVV->Write();
+    hmc_exp->Write();
     hdata_obs->Write();
     outrootfile->Close();
 
@@ -628,6 +559,106 @@ void MakePlots(const Events * ev, TString var,
     delete hmc_exp;
 
     std::clog << "MakePlots(): DONE!" << std::endl;
+
+    return;
+}
+
+//______________________________________________________________________________
+void MakeDatacard(TString channel, TString dcname, TString wsname,
+                  bool useshapes,
+                  TString options="unblind:SplusB") {
+
+    std::clog << "MakeDatacard(): Printing datacard..." << std::endl;
+
+    // Parse options
+    bool unblind    = options.Contains("unblind")    && (!options.Contains("!unblind"));
+    bool SplusB     = options.Contains("SplusB")     && (!options.Contains("!SplusB"));
+    channel += "_8TeV";
+
+    if (useshapes && !unblind) {
+        std::clog << "MakeDatacard(): I only support 'unblind' mode when using shapes." << std::endl;
+        unblind = true;
+    }
+
+    std::ofstream dc;
+    dc.setf(ios::fixed,ios::floatfield);
+    dc.precision(3);
+    dc.open(dcname.Data());
+
+    TString wsname_new = dcname(0,dcname.Sizeof()-5)+".root";
+    gSystem->Exec(Form("cp %s %s", wsname.Data(), wsname_new.Data()));
+    TFile * wsfile = TFile::Open(wsname);
+
+    int jmax = 8;
+    dc << "imax 1 number of channels" << std::endl;
+    dc << "jmax " << jmax << " number of processes minus 1 ('*' = automatic)" << std::endl;
+    dc << "kmax * number of nuisance parameters (sources of systematical uncertainties)" << std::endl;
+    dc << "-----------------------------------" << std::endl;
+    if (useshapes) {
+        //dc << "shapes * * " << wsname << " $CHANNEL:$PROCESS $CHANNEL:$PROCESS_$SYSTEMATIC" << std::endl;
+        dc << "shapes * * " << wsname_new << " $PROCESS $PROCESS_$SYSTEMATIC" << std::endl;
+        dc << "-----------------------------------" << std::endl;
+    }
+    dc << "bin         " << channel << std::endl;
+    if (unblind) {
+        dc << "observation " << ((TH1 *) wsfile->Get("data_obs"))->Integral() << std::endl;
+    } else if (SplusB) {
+        dc << "observation " << ((TH1 *) wsfile->Get("mc_exp"))->Integral() + ((TH1 *) wsfile->Get("ZH"))->Integral() + ((TH1 *) wsfile->Get("WH"))->Integral() << std::endl;
+    } else {
+        dc << "observation " << ((TH1 *) wsfile->Get("mc_exp"))->Integral() << std::endl;
+    }
+    dc << "#prediction " << ((TH1 *) wsfile->Get("mc_exp"))->Integral() << std::endl;
+    dc << "-----------------------------------" << std::endl;
+
+    dc << "bin         "; for (int j=0; j!=jmax+1; j++)  dc << channel << "   "; dc << std::endl;
+    dc << "process     ZH         WH         WjLF       WjHF       ZjLF       ZjHF       TT         ST         VV         " << std::endl;
+    dc << "process     -1         0          1          2          3          4          5          6          7          " << std::endl;
+    dc << "rate        " << setw(10) << right << ((TH1 *) wsfile->Get("ZH"))->Integral() << " "
+                         << setw(10) << right << ((TH1 *) wsfile->Get("WH"))->Integral() << " "
+                         << setw(10) << right << ((TH1 *) wsfile->Get("WjLF"))->Integral() << " "
+                         << setw(10) << right << ((TH1 *) wsfile->Get("WjHF"))->Integral() << " "
+                         << setw(10) << right << ((TH1 *) wsfile->Get("ZjLF"))->Integral() << " "
+                         << setw(10) << right << ((TH1 *) wsfile->Get("ZjHF"))->Integral() << " "
+                         << setw(10) << right << ((TH1 *) wsfile->Get("TT"))->Integral() << " "
+                         << setw(10) << right << ((TH1 *) wsfile->Get("ST"))->Integral() << " "
+                         << setw(10) << right << ((TH1 *) wsfile->Get("VV"))->Integral() << std::endl;
+    dc.precision(2);
+    dc << "-----------------------------------" << std::endl;
+    dc << "" << std::endl;
+    dc << "# This datacard is for demonstration purposes only!" << std::endl;
+    dc << "#################################### #####  ZH    WH    WjLF  WjHF  ZjLF  ZjHF  TT    ST    VV    " << std::endl;
+    dc << "lumi_8TeV                            lnN    1.026 1.026 -     -     -     -     -     1.026 1.026 " << std::endl;
+    dc << "pdf_qqbar                            lnN    1.01  1.01  -     -     -     -     -     -     1.01  " << std::endl;
+    dc << "pdf_gg                               lnN    -     -     -     -     -     -     -     1.01  -     " << std::endl;
+    dc << "QCDscale_VH                          lnN    1.04  1.04  -     -     -     -     -     -     -     " << std::endl;
+    dc << "QCDscale_ttbar                       lnN    -     -     -     -     -     -     -     1.06  -     " << std::endl;
+    dc << "QCDscale_VV                          lnN    -     -     -     -     -     -     -     -     1.04  " << std::endl;
+    dc << "QCDscale_QCD                         lnN    -     -     -     -     -     -     -     -     -     " << std::endl;
+    dc << "CMS_vhbb_boost_EWK_8TeV              lnN    1.05  1.10  -     -     -     -     -     -     -     " << std::endl;
+    dc << "CMS_vhbb_boost_QCD_8TeV              lnN    1.10  1.10  -     -     -     -     -     -     -     " << std::endl;
+    dc << "CMS_vhbb_ST                          lnN    -     -     -     -     -     -     -     1.25  -     " << std::endl;
+    dc << "CMS_vhbb_VV                          lnN    -     -     -     -     -     -     -     -     1.25  " << std::endl;
+    dc << "CMS_vhbb_eff_b                       lnN    1.07  1.07  1.07  1.07  1.07  1.07  1.07  1.07  1.07  " << std::endl;
+    dc << "CMS_vhbb_fake_b_8TeV                 lnN    1.03  1.03  1.03  1.03  1.03  1.03  1.03  1.03  1.03  " << std::endl;
+    dc << "CMS_vhbb_res_j                       lnN    1.05  1.05  1.05  1.05  1.05  1.05  1.05  1.05  1.05  " << std::endl;
+    dc << "CMS_vhbb_scale_j                     lnN    1.05  1.05  1.05  1.05  1.05  1.05  1.05  1.05  1.05  " << std::endl;
+    dc << "CMS_vhbb_WjLF_SF_" << channel << "            lnN    -     -     1.08  -     -     -     -     -     -     " << std::endl;
+    dc << "CMS_vhbb_WjHF_SF_" << channel << "            lnN    -     -     -     1.20  -     -     -     -     -     " << std::endl;
+    dc << "CMS_vhbb_ZjLF_SF_" << channel << "            lnN    -     -     -     -     1.08  -     -     -     -     " << std::endl;
+    dc << "CMS_vhbb_ZjHF_SF_" << channel << "            lnN    -     -     -     -     -     1.20  -     -     -     " << std::endl;
+    dc << "CMS_vhbb_TT_SF_" << channel << "              lnN    -     -     -     -     -     -     1.07  -     -     " << std::endl;
+    if (channel == "Zmm_8TeV" || channel == "Wmn_8TeV")
+        dc << "CMS_vhbb_eff_m                       lnN    1.01  1.01  -     -     -     -     -     1.01  1.01  " << std::endl;
+    else if (channel == "Zee_8TeV" || channel == "Wen_8TeV")
+        dc << "CMS_vhbb_eff_e                       lnN    1.01  1.01  -     -     -     -     -     1.01  1.01  " << std::endl;
+    else if (channel == "Znn_8TeV")
+        dc << "CMS_vhbb_trigger_MET                 lnN    1.03  1.03  -     -     -     -     -     1.03  1.03  " << std::endl;
+    dc << "#################################### #####  ZH    WH    WjLF  WjHF  ZjLF  ZjHF  TT    ST    VV    " << std::endl;
+    dc.close();
+
+    wsfile->Close();
+
+    std::clog << "MakeDatacard(): DONE!" << std::endl;
 
     return;
 }
