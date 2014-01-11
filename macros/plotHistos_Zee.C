@@ -113,7 +113,7 @@ void plotHistos_Zee() {
     //TString channel  = "Wmn";
 
     // These are loose cuts for all plots in this particular channel
-    //TCut cutmc_all   = "Vtype==2 && H.pt>80 && hJet_pt[0]>30 && hJet_pt[1]>30 && abs(hJet_eta[0])<2.5 && abs(hJet_eta[1])<2.5 && hJet_id[0]==1 && hJet_id[1]==1 && hJet_puJetIdL[0]>0 && hJet_puJetIdL[1]>0 && vLepton_pt[0]>30 && abs(vLepton_eta[0])<2.4 && METtype1corr.et >45 && Sum$(aLepton_pt>20 && abs(aLepton_eta)<2.5 && aLepton_pfCombRelIso<0.15 && (vLepton_id95==7 || vLepton_vbtf==1) )==0 && abs(deltaPhi(vLepton_phi[0],METtype1corr.phi))<1.57 && Sum$(aJet_pt>20 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0 && hbhe==1";
+    //TCut cutmc_all   = "Vtype==2 && H.pt>80 && hJet_pt[0]>30 && hJet_pt[1]>30 && abs(hJet_eta[0])<2.5 && abs(hJet_eta[1])<2.5 && hJet_id[0]==1 && hJet_id[1]==1 && hJet_puJetIdL[0]>0 && hJet_puJetIdL[1]>0 && vLepton_pt[0]>30 && abs(vLepton_eta[0])<2.4 && METtype1corr.et >45 && nalep==0 && Sum$(aJet_pt>20 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0 && hbhe==1";
     //cutmc_all       += "min(hJet_csv_nominal[0], hJet_csv_nominal[1])>0.4 && abs(HVdPhi)>2.0";  // tighter cut
     //TCut cutdata_all = cutmc_all;
     //cutmc_all       *= "weightTrig2012";  // apply trigger weight for MC
@@ -127,7 +127,7 @@ void plotHistos_Zee() {
     //TString channel  = "Wen";
 
     // These are loose cuts for all plots in this particular channel
-    //TCut cutmc_all   = "Vtype==3 && H.pt>80 && hJet_pt[0]>30 && hJet_pt[1]>30 && abs(hJet_eta[0])<2.5 && abs(hJet_eta[1])<2.5 && hJet_id[0]==1 && hJet_id[1]==1 && hJet_puJetIdL[0]>0 && hJet_puJetIdL[1]>0 && vLepton_pt[0]>30 && abs(vLepton_eta[0])<2.5 && METtype1corr.et >45 && Sum$(aLepton_pt>20 && abs(aLepton_eta)<2.5 && aLepton_pfCombRelIso<0.15 && (vLepton_id95==7 || vLepton_vbtf==1) )==0 && abs(deltaPhi(vLepton_phi[0],METtype1corr.phi))<1.57 && Sum$(aJet_pt>20 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0 && hbhe==1";
+    //TCut cutmc_all   = "Vtype==3 && H.pt>80 && hJet_pt[0]>30 && hJet_pt[1]>30 && abs(hJet_eta[0])<2.5 && abs(hJet_eta[1])<2.5 && hJet_id[0]==1 && hJet_id[1]==1 && hJet_puJetIdL[0]>0 && hJet_puJetIdL[1]>0 && vLepton_pt[0]>30 && abs(vLepton_eta[0])<2.5 && METtype1corr.et >45 && nalep==0 && Sum$(aJet_pt>20 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0 && hbhe==1";
     //cutmc_all       += "min(hJet_csv_nominal[0], hJet_csv_nominal[1])>0.4 && abs(HVdPhi)>2.0";  // tighter cut
     //TCut cutdata_all = cutmc_all;
     //cutmc_all       *= "weightTrig2012";  // apply trigger weight for MC
@@ -141,7 +141,7 @@ void plotHistos_Zee() {
     //TString channel  = "Znn";
 
     // These are loose cuts for all plots in this particular channel
-    //TCut cutmc_all   = "Vtype==4 && H.pt>130 && hJet_pt[0]>80 && hJet_pt[1]>30 && abs(hJet_eta[0])<2.5 && abs(hJet_eta[1])<2.5 && hJet_id[0]==1 && hJet_id[1]==1 && hJet_puJetIdL[0]>0 && hJet_puJetIdL[1]>0 && Sum$(aLepton_pt>20 && abs(aLepton_eta)<2.5 && aLepton_pfCombRelIso<0.15 && (vLepton_id95==7 || vLepton_vbtf==1) )==0 && Sum$(aJet_pt>25 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0 && min(Min$(abs(deltaPhi(METtype1corr.phi,hJet_phi))),Min$(abs(deltaPhiMETjets(METtype1corr.phi,aJet_phi,aJet_pt,aJet_eta)))+999*(Sum$(aJet_pt>25 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0) )>0.5 && hbhe==1";
+    //TCut cutmc_all   = "Vtype==4 && H.pt>130 && hJet_pt[0]>80 && hJet_pt[1]>30 && abs(hJet_eta[0])<2.5 && abs(hJet_eta[1])<2.5 && hJet_id[0]==1 && hJet_id[1]==1 && hJet_puJetIdL[0]>0 && hJet_puJetIdL[1]>0 && nalep==0 && Sum$(aJet_pt>25 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0 && min(Min$(abs(deltaPhi(METtype1corr.phi,hJet_phi))),Min$(abs(deltaPhiMETjets(METtype1corr.phi,aJet_phi,aJet_pt,aJet_eta)))+999*(Sum$(aJet_pt>25 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0) )>0.5 && hbhe==1";
     //cutmc_all       += "min(hJet_csv_nominal[0], hJet_csv_nominal[1])>0.4 && abs(HVdPhi)>2.0";  // tighter cut
     //TCut cutdata_all = cutmc_all;
     //cutmc_all       *= "(triggerFlags[42]==1 || triggerFlags[39]==1 || triggerFlags[41]==1) && hbhe && ecalFlag && cschaloFlag && hcallaserFlag && trackingfailureFlag && eebadscFlag && !isBadHcalEvent"; // apply trigger bits and MET cleaning for MC (they are already applied on data)
@@ -181,10 +181,10 @@ void plotHistos_Zee() {
     //double dPhi   = 2.95;
 
     // If doing cut and count analysis, cut on H.mass by changing the values of minhmass and maxhmass
-    double minhmass = 0.;
-    double maxhmass = 9999.;
-    //double minhmass = 110.;
-    //double maxhmass = 140.;
+    //double minhmass = 0.;
+    //double maxhmass = 9999.;
+    double minhmass = 110.;
+    double maxhmass = 140.;
 
     // These are tight cuts for this particular plot
     TCut cutmc = Form("V.pt>%.2f && H.pt>%.2f && max(hJet_csv_nominal[0],hJet_csv_nominal[1])>%.3f && min(hJet_csv_nominal[0], hJet_csv_nominal[1])>%.3f && abs(HVdPhi)>%.2f && %.2f<H.mass && H.mass<%.2f", vpt, hpt, maxcsv, mincsv, dPhi, minhmass, maxhmass);
@@ -214,7 +214,7 @@ void plotHistos_Zee() {
     bool    useshapes = false;
     TString options1  = "!unblind:SplusB";
 
-    // Apply H.mass cut before calling MakeDatacard(...)
+    // For cut-and-count analysis, apply H.mass cut before calling MakeDatacard(...)
     MakeDatacard(channel, dcname, wsname, useshapes, options1);
 
 
@@ -224,8 +224,8 @@ void plotHistos_Zee() {
     plotname = channel + "_Hmass_shapes";
     MakePlots(ev, var, cutmc, cutdata, title, nbinsx, xlow, xup, plotname, plotdir, options);
 
-    dcname    = Form("vhbb_shapes_%s_8TeV.txt", channel.Data());   // the datacard name
-    wsname    = plotdir + plotname +".root";                // the workspace name
+    dcname    = Form("vhbb_shapes_%s_8TeV.txt", channel.Data());    // the datacard name
+    wsname    = plotdir + plotname +".root";                        // the workspace name
     useshapes = true;
     options1  = "unblind:SplusB";
     MakeDatacard(channel, dcname, wsname, useshapes, options1);
