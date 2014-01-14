@@ -1,2 +1,6 @@
 *.d
 *.so
+*.pdf
+*.png
+*.root
+roostats-*

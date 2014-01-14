@@ -1,11 +1,10 @@
 #include "plotHistos_Znn.h"
 
 #include "TROOT.h"
-#include "TSystem.h"
 #include "TStyle.h"
 
 
-// To run, do "root -l plotHistos.C+"
+// To run, do "root -l plotHistos_Znn.C+"
 
 void plotHistos_Znn() {
     gROOT->LoadMacro("tdrstyle.C");
@@ -24,7 +23,7 @@ void plotHistos_Znn() {
     // Task 1 (a)                                                             //
     // - please comment out other tasks                                       //
     ////////////////////////////////////////////////////////////////////////////
-/*
+
     // Read from ntuples
     Events * ev = new Events();
     TCut cutmc_all   = "Vtype==4";   // change this to your channel
@@ -49,7 +48,7 @@ void plotHistos_Znn() {
 
     // You can put in the parameters directly as in the following commented out line:
     //MakePlot(ev->ZH, "H.pt", cut, "; p_{T}(jj) [GeV]", 16, 0, 240., process + "_Hpt", plotdir, options);
-*/
+
 
     ////////////////////////////////////////////////////////////////////////////
     // Task 1 (b)                                                             //
@@ -80,7 +79,7 @@ void plotHistos_Znn() {
     // Task 2                                                                 //
     // - please comment out other tasks                                       //
     ////////////////////////////////////////////////////////////////////////////
-
+/*
     // Zmm______________________________________________________________________
     //TString channel  = "Zmm";
 
@@ -196,19 +195,19 @@ void plotHistos_Znn() {
     int nbinsx       = 15;
     double xlow      = 30.0;
     double xup       = 255.0;
-    TString options  = "printStat:plotSig:plotData:!plotLog";
+    TString options  = "printStat:plotSig:!plotData:!plotLog";
 
     MakePlots(ev, var, cutmc, cutdata, title, nbinsx, xlow, xup, plotname, plotdir, options);
 
     // Or, just put in them directly as in the following commented out line:
-    //MakePlots(ev, "H.mass", cutmc, cutdata, "m(jj) [GeV]", 15, 30.0, 255.0, channel+"_Hmass", plotdir, "printStat:plotSig:plotData:!plotLog");
-
+    //MakePlots(ev, "H.mass", cutmc, cutdata, "m(jj) [GeV]", 15, 30.0, 255.0, channel+"_Hmass", plotdir, "printStat:plotSig:!plotData:!plotLog");
+*/
 
     ////////////////////////////////////////////////////////////////////////////
     // Task 3                                                                 //
     // - please comment out other tasks, but keep Task 2                      //
     ////////////////////////////////////////////////////////////////////////////
-
+/*
     TString dcname    = Form("vhbb_%s_8TeV.txt", channel.Data());   // the datacard name
     TString wsname    = plotdir + plotname +".root";                // the workspace name
     bool    useshapes = false;
@@ -218,16 +217,17 @@ void plotHistos_Znn() {
     MakeDatacard(channel, dcname, wsname, useshapes, options1);
 
 
-    // For shape analysis
-    cutmc = Form("V.pt>%.2f && H.pt>%.2f && max(hJet_csv_nominal[0],hJet_csv_nominal[1])>%.3f && min(hJet_csv_nominal[0], hJet_csv_nominal[1])>%.3f && abs(HVdPhi)>%.2f", vpt, hpt, maxcsv, mincsv, dPhi);
-    cutdata = cutmc;
-    plotname = channel + "_Hmass_shapes";
-    MakePlots(ev, var, cutmc, cutdata, title, nbinsx, xlow, xup, plotname, plotdir, options);
+    // For shape analysis, remove H.mass cut before calling MakeDatacard(...)
+    //cutmc = Form("V.pt>%.2f && H.pt>%.2f && max(hJet_csv_nominal[0],hJet_csv_nominal[1])>%.3f && min(hJet_csv_nominal[0], hJet_csv_nominal[1])>%.3f && abs(HVdPhi)>%.2f", vpt, hpt, maxcsv, mincsv, dPhi);
+    //cutdata = cutmc;
+    //plotname = channel + "_Hmass_shapes";
+    //MakePlots(ev, var, cutmc, cutdata, title, nbinsx, xlow, xup, plotname, plotdir, options);
 
-    dcname    = Form("vhbb_shapes_%s_8TeV.txt", channel.Data());    // the datacard name
-    wsname    = plotdir + plotname +".root";                        // the workspace name
-    useshapes = true;
-    options1  = "unblind:SplusB";
-    MakeDatacard(channel, dcname, wsname, useshapes, options1);
+    //dcname    = Form("vhbb_shapes_%s_8TeV.txt", channel.Data());    // the datacard name
+    //wsname    = plotdir + plotname +".root";                        // the workspace name
+    //useshapes = true;
+    //options1  = "unblind:SplusB";
+    //MakeDatacard(channel, dcname, wsname, useshapes, options1);
+*/
 
 }

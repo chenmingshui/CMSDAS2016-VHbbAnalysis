@@ -463,7 +463,8 @@ void MakePlots(const Events * ev, TString var,
     latex->SetTextAlign(12);
     latex->SetTextFont(62);
     latex->SetTextSize(0.052);
-    latex->DrawLatex(0.19, 0.89, "CMS Preliminary");
+    //latex->DrawLatex(0.19, 0.89, "CMS Preliminary");
+    latex->DrawLatex(0.19, 0.89, "CMSDAS Exercise 2014");
     latex->SetTextSize(0.04);
     latex->DrawLatex(0.19, 0.84, "#sqrt{s} = 8 TeV, L = 18.9 fb^{-1}");
     // NOTE: change this to your channel
@@ -932,8 +933,7 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     return;
 }
 
-void set_style(TH1 * h, const TString& p)
-{
+void set_style(TH1 * h, const TString& p) {
     if (p == "VH") {
         h->SetFillColor  (2);
         h->SetMarkerColor(2);
