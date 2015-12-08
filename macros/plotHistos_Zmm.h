@@ -466,9 +466,9 @@ void MakePlots(const Events * ev, TString var,
     latex->SetTextFont(62);
     latex->SetTextSize(0.052);
     //latex->DrawLatex(0.19, 0.89, "CMS Preliminary");
-    latex->DrawLatex(0.19, 0.89, "CMSDAS Exercise 2014");
+    latex->DrawLatex(0.19, 0.89, "CMSDAS Exercise 2016");
     latex->SetTextSize(0.04);
-    latex->DrawLatex(0.19, 0.84, "#sqrt{s} = 8 TeV, L = 18.9 fb^{-1}");
+    latex->DrawLatex(0.19, 0.84, "#sqrt{s} = 13 TeV, L = 1.28 fb^{-1}");
     // NOTE: change this to your channel
     latex->DrawLatex(0.19, 0.79, "Z(#mu#bar{#mu})H(b#bar{b})");
     //latex->DrawLatex(0.19, 0.79, "Z(e#bar{e})H(b#bar{b})");
@@ -575,7 +575,7 @@ void MakeDatacard(TString channel, TString dcname, TString wsname,
     // Parse options
     bool unblind    = options.Contains("unblind")    && (!options.Contains("!unblind"));
     bool SplusB     = options.Contains("SplusB")     && (!options.Contains("!SplusB"));
-    channel += "_8TeV";
+    channel += "_13TeV";
 
     if (useshapes && !unblind) {
         std::clog << "MakeDatacard(): I only support 'unblind' mode when using shapes." << std::endl;
@@ -629,19 +629,19 @@ void MakeDatacard(TString channel, TString dcname, TString wsname,
     dc << "" << std::endl;
     dc << "# This datacard is for demonstration purposes only!" << std::endl;
     dc << "#################################### #####  ZH    WH    WjLF  WjHF  ZjLF  ZjHF  TT    ST    VV    " << std::endl;
-    dc << "lumi_8TeV                            lnN    1.026 1.026 -     -     -     -     -     1.026 1.026 " << std::endl;
+    dc << "lumi_13TeV                            lnN    1.026 1.026 -     -     -     -     -     1.026 1.026 " << std::endl;
     dc << "pdf_qqbar                            lnN    1.01  1.01  -     -     -     -     -     -     1.01  " << std::endl;
     dc << "pdf_gg                               lnN    -     -     -     -     -     -     -     1.01  -     " << std::endl;
     dc << "QCDscale_VH                          lnN    1.04  1.04  -     -     -     -     -     -     -     " << std::endl;
     dc << "QCDscale_ttbar                       lnN    -     -     -     -     -     -     -     1.06  -     " << std::endl;
     dc << "QCDscale_VV                          lnN    -     -     -     -     -     -     -     -     1.04  " << std::endl;
     dc << "QCDscale_QCD                         lnN    -     -     -     -     -     -     -     -     -     " << std::endl;
-    dc << "CMS_vhbb_boost_EWK_8TeV              lnN    1.05  1.10  -     -     -     -     -     -     -     " << std::endl;
-    dc << "CMS_vhbb_boost_QCD_8TeV              lnN    1.10  1.10  -     -     -     -     -     -     -     " << std::endl;
+    //dc << "CMS_vhbb_boost_EWK_8TeV              lnN    1.05  1.10  -     -     -     -     -     -     -     " << std::endl;
+    //dc << "CMS_vhbb_boost_QCD_8TeV              lnN    1.10  1.10  -     -     -     -     -     -     -     " << std::endl;
     dc << "CMS_vhbb_ST                          lnN    -     -     -     -     -     -     -     1.25  -     " << std::endl;
     dc << "CMS_vhbb_VV                          lnN    -     -     -     -     -     -     -     -     1.25  " << std::endl;
     dc << "CMS_vhbb_eff_b                       lnN    1.07  1.07  1.07  1.07  1.07  1.07  1.07  1.07  1.07  " << std::endl;
-    dc << "CMS_vhbb_fake_b_8TeV                 lnN    1.03  1.03  1.03  1.03  1.03  1.03  1.03  1.03  1.03  " << std::endl;
+    //dc << "CMS_vhbb_fake_b_8TeV                 lnN    1.03  1.03  1.03  1.03  1.03  1.03  1.03  1.03  1.03  " << std::endl;
     dc << "CMS_vhbb_res_j                       lnN    1.05  1.05  1.05  1.05  1.05  1.05  1.05  1.05  1.05  " << std::endl;
     dc << "CMS_vhbb_scale_j                     lnN    1.05  1.05  1.05  1.05  1.05  1.05  1.05  1.05  1.05  " << std::endl;
     dc << "CMS_vhbb_WjLF_SF_" << channel << "            lnN    -     -     1.08  -     -     -     -     -     -     " << std::endl;
@@ -649,11 +649,11 @@ void MakeDatacard(TString channel, TString dcname, TString wsname,
     dc << "CMS_vhbb_ZjLF_SF_" << channel << "            lnN    -     -     -     -     1.08  -     -     -     -     " << std::endl;
     dc << "CMS_vhbb_ZjHF_SF_" << channel << "            lnN    -     -     -     -     -     1.20  -     -     -     " << std::endl;
     dc << "CMS_vhbb_TT_SF_" << channel << "              lnN    -     -     -     -     -     -     1.07  -     -     " << std::endl;
-    if (channel == "Zmm_8TeV" || channel == "Wmn_8TeV")
+    if (channel == "Zmm_13TeV" || channel == "Wmn_13TeV")
         dc << "CMS_vhbb_eff_m                       lnN    1.01  1.01  -     -     -     -     -     1.01  1.01  " << std::endl;
-    else if (channel == "Zee_8TeV" || channel == "Wen_8TeV")
+    else if (channel == "Zee_13TeV" || channel == "Wen_13TeV")
         dc << "CMS_vhbb_eff_e                       lnN    1.01  1.01  -     -     -     -     -     1.01  1.01  " << std::endl;
-    else if (channel == "Znn_8TeV")
+    else if (channel == "Znn_13TeV")
         dc << "CMS_vhbb_trigger_MET                 lnN    1.03  1.03  -     -     -     -     -     1.03  1.03  " << std::endl;
     dc << "#################################### #####  ZH    WH    WjLF  WjHF  ZjLF  ZjHF  TT    ST    VV    " << std::endl;
     dc.close();
