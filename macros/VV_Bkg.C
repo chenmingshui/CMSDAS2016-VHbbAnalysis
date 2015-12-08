@@ -104,7 +104,7 @@
   l.SetTextSize(0.04);
   l.DrawLatex(0.17,0.89,"CMS Preliminary");
   l.SetTextSize(0.03);
-  l.DrawLatex(0.17,0.84,"#sqrt{s} = 8 TeV, L = 12 fb^{-1}");
+  l.DrawLatex(0.17,0.84,"#sqrt{s} = 13 TeV, L = 1.3 fb^{-1}");
   l.DrawLatex(0.17,0.79,"W(l#nu)H(b#bar{b})");
 
   
