@@ -259,7 +259,7 @@ void MakePlots(const Events * ev, TString var,
     ev->ST_T_t    ->Project("+ST" , var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_ST_T_t));
     ev->ST_T_tW   ->Project("+ST" , var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_ST_T_tW));
     //ev->ST_Tbar_s ->Project("+ST" , var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_ST_Tbar_s)); //currently inclusive s channel above
-    ev->ST_Tbar_t ->Project("+ST" , var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_ST_Tbar_t));
+    //ev->ST_Tbar_t ->Project("+ST" , var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_ST_Tbar_t)); //currently inclusive t channel above
     ev->ST_Tbar_tW->Project("+ST" , var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_ST_Tbar_tW));
     std::clog << "... DONE: project ST." << std::endl;
 
@@ -464,7 +464,8 @@ void MakePlots(const Events * ev, TString var,
     latex->SetNDC();
     latex->SetTextAlign(12);
     latex->SetTextFont(62);
-    latex->SetTextSize(0.052);
+    //latex->SetTextSize(0.052);
+    latex->SetTextSize(0.04);
     //latex->DrawLatex(0.19, 0.89, "CMS Preliminary");
     latex->DrawLatex(0.19, 0.89, "CMSDAS Exercise 2016");
     latex->SetTextSize(0.04);
@@ -629,7 +630,7 @@ void MakeDatacard(TString channel, TString dcname, TString wsname,
     dc << "" << std::endl;
     dc << "# This datacard is for demonstration purposes only!" << std::endl;
     dc << "#################################### #####  ZH    WH    WjLF  WjHF  ZjLF  ZjHF  TT    ST    VV    " << std::endl;
-    dc << "lumi_13TeV                            lnN    1.026 1.026 -     -     -     -     -     1.026 1.026 " << std::endl;
+    dc << "lumi_13TeV                            lnN    1.046 1.046 -     -     -     -     -     1.046 1.046 " << std::endl;
     dc << "pdf_qqbar                            lnN    1.01  1.01  -     -     -     -     -     -     1.01  " << std::endl;
     dc << "pdf_gg                               lnN    -     -     -     -     -     -     -     1.01  -     " << std::endl;
     dc << "QCDscale_VH                          lnN    1.04  1.04  -     -     -     -     -     -     -     " << std::endl;
@@ -779,10 +780,10 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
         TChain ZH_(treename);
         ZH_.Add(indir + prefix + "ZH_HToBB_ZToLL_M125_13TeV_powheg_pythia8" + suffix);
         ZH = (TTree *) ZH_.CopyTree(cutmc_all);
-        lumi_ZH = lumis["ZllH125"];
+        lumi_ZH = lumis["ZH_HToBB_ZToLL_M125_13TeV_powheg_pythia8"];
         //ZH_.Add(indir + prefix + "ZH_HToBB_ZToNuNu_M125_13TeV_amcatnloFXFX_madspin_pythia8" + suffix);
         //ZH = (TTree *) ZH_.CopyTree(cutmc_all);
-        //lumi_ZH = lumis["ZnnH125"];
+        //lumi_ZH = lumis["ZH_HToBB_ZToNuNu_M125_13TeV_amcatnloFXFX_madspin_pythia8"];
         std::clog << "... DONE: ZH copy tree. N=" << ZH->GetEntries() << std::endl;
     }
 
@@ -790,7 +791,7 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
         TChain WH_(treename);
         WH_.Add(indir + prefix + "WH_HToBB_WToLNu_M125_13TeV_amcatnloFXFX_madspin_pythia8" + suffix);
         WH = (TTree *) WH_.CopyTree(cutmc_all);
-        lumi_WH = lumis["WlnH125"];
+        lumi_WH = lumis["WH_HToBB_WToLNu_M125_13TeV_amcatnloFXFX_madspin_pythia8"];
         std::clog << "... DONE: WH copy tree. N=" << WH->GetEntries() << std::endl;
     }
 
@@ -801,13 +802,13 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
       TChain* WjLF_ = new TChain(treename);
       WjLF_->Add(indir + prefix + "WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
       WjLF = (TTree *) WjLF_->CopyTree(cutmc_all + cutLF);
-        lumi_WjLF = lumis["WJetsPtW100"];
+        lumi_WjLF = lumis["WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
         std::clog << "... DONE: WjLF copy tree. N=" << WjLF->GetEntries() << std::endl;
 
         TChain WjHF_(treename);
         WjHF_.Add(indir + prefix + "WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
         WjHF = (TTree *) WjHF_.CopyTree(cutmc_all + cutHF);
-        lumi_WjHF = lumis["WJetsPtW100"];
+        lumi_WjHF = lumis["WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
         std::clog << "... DONE: WjHF copy tree. N=" << WjHF->GetEntries() << std::endl;
     }
 
@@ -817,7 +818,7 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
         TChain ZjLF_(treename);
         ZjLF_.Add(indir + prefix + "DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
         ZjLF = (TTree *) ZjLF_.CopyTree(cutmc_all + cutLF);
-        lumi_ZjLF = lumis["DYJetsPtZ100"];
+        lumi_ZjLF = lumis["DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
         //ZjLF_.Add(indir + prefix + "ZJetsPtZ100" + suffix);
         //ZjLF = (TTree *) ZjLF_.CopyTree(cutmc_all + cutLF);
         //lumi_ZjLF = lumis["ZJetsPtZ100"];
@@ -828,7 +829,7 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
         TChain ZjHF_(treename);
         ZjHF_.Add(indir + prefix + "DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
         ZjHF = (TTree *) ZjHF_.CopyTree(cutmc_all + cutHF);
-        lumi_ZjHF = lumis["DYJetsPtZ100"];
+        lumi_ZjHF = lumis["DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
         //ZjHF_.Add(indir + prefix + "ZJetsPtZ100" + suffix);
         //ZjHF = (TTree *) ZjHF_.CopyTree(cutmc_all + cutHF);
         //lumi_ZjHF = lumis["ZJetsPtZ100"];
@@ -845,7 +846,7 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
         TChain TT_fl_(treename);
         TT_fl_.Add(indir + prefix + "TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
         TT_fl = (TTree *) TT_fl_.CopyTree(cutmc_all);
-        lumi_TT_fl = lumis["TTFullLeptMG"];
+        lumi_TT_fl = lumis["TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
         std::clog << "... DONE: TT_fl copy tree. N=" << TT_fl->GetEntries() << std::endl;
 
         TChain TT_sl_(treename);
@@ -866,19 +867,19 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
         TChain ST_T_s_(treename);
         ST_T_s_.Add(indir + prefix + "ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1" + suffix);
         ST_T_s = (TTree *) ST_T_s_.CopyTree(cutmc_all);
-        lumi_ST_T_s = lumis["T_s"];
+        lumi_ST_T_s = lumis["ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1"];
         std::clog << "... DONE: ST_T_s copy tree. N=" << ST_T_s->GetEntries() << std::endl;
 
         TChain ST_T_t_(treename);
-        ST_T_t_.Add(indir + prefix + "ST_t-channel_top_4f_leptonDecays_13TeV-powheg-pythia8_TuneCUETP8M1" + suffix);
+        ST_T_t_.Add(indir + prefix + "ST_t-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1" + suffix);
         ST_T_t = (TTree *) ST_T_t_.CopyTree(cutmc_all);
-        lumi_ST_T_t = lumis["T_t"];
+        lumi_ST_T_t = lumis["ST_t-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1"];
         std::clog << "... DONE: ST_T_t copy tree. N="  << ST_T_t->GetEntries() << std::endl;
 
         TChain ST_T_tW_(treename);
         ST_T_tW_.Add(indir + prefix + "ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1" + suffix);
         ST_T_tW = (TTree *) ST_T_tW_.CopyTree(cutmc_all);
-        lumi_ST_T_tW = lumis["T_tW"];
+        lumi_ST_T_tW = lumis["ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1"];
         std::clog << "... DONE: ST_T_tW copy tree. N=" << ST_T_tW->GetEntries() << std::endl;
 
         //TChain ST_Tbar_s_(treename);
@@ -887,11 +888,11 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
         //lumi_ST_Tbar_s = lumis["Tbar_s"];
         //std::clog << "... DONE: ST_Tbar_s copy tree. N=" << ST_Tbar_s->GetEntries() << std::endl;
 
-        TChain ST_Tbar_t_(treename);
-        ST_Tbar_t_.Add(indir + prefix + "ST_t-channel_antitop_4f_leptonDecays_13TeV-powheg-pythia8_TuneCUETP8M1" + suffix);
-        ST_Tbar_t = (TTree *) ST_Tbar_t_.CopyTree(cutmc_all);
-        lumi_ST_Tbar_t = lumis["Tbar_t"];
-        std::clog << "... DONE: ST_Tbar_t copy tree. N=" << ST_Tbar_t->GetEntries() << std::endl;
+        //TChain ST_Tbar_t_(treename);
+        //ST_Tbar_t_.Add(indir + prefix + "ST_t-channel_antitop_4f_leptonDecays_13TeV-powheg-pythia8_TuneCUETP8M1" + suffix);
+        //ST_Tbar_t = (TTree *) ST_Tbar_t_.CopyTree(cutmc_all);
+        //lumi_ST_Tbar_t = lumis["Tbar_t"];
+        //std::clog << "... DONE: ST_Tbar_t copy tree. N=" << ST_Tbar_t->GetEntries() << std::endl;
 
         TChain ST_Tbar_tW_(treename);
         ST_Tbar_tW_.Add(indir + prefix + "ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1" + suffix);

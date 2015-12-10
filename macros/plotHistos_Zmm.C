@@ -84,7 +84,7 @@ void plotHistos_Zmm() {
     // These are loose cuts for all plots in this particular channel
     TCut cutmc_all   = "Vtype==0 && V_pt>120 && Jet_pt[hJCidx[0]]>20 && Jet_pt[hJCidx[1]]>20 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && vLeptons_pt[0]>20 && vLeptons_pt[1]>20 && abs(vLeptons_eta[0])<2.4 && abs(vLeptons_eta[1])<2.4 && met_pt<60 && 75<V_mass && V_mass<105 && deltaR_jj<1.6";
     cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4";  // tighter cut
-    cutmc_all       += "V_pt>300";//BEN DEBUGGING FIXME
+    //cutmc_all       += "V_pt>300";//BEN DEBUGGING FIXME
     TCut cutdata_all = cutmc_all;
     //cutmc_all       *= "weightTrig2012";  // apply trigger weight for MC
 
