@@ -29,7 +29,7 @@ void plotHistos_Zmm() {
     TString process  = "VH";         // can try other processes: VH, WJ, ZJ, TT
     ev->read(cutmc_all, cutdata_all, process);
 
-    TString var      = "H_mass";                // the variable to plot
+    TString var      = "HCSV_mass";                // the variable to plot
     TCut cut         = "V_pt>120";              // the selection cut
     TString title    = ";m(jj) [GeV]";          // the title of the histogram
     TString plotname = process + "_Hmass";      // the name of the image file
@@ -45,7 +45,7 @@ void plotHistos_Zmm() {
     MakePlot(ev->ZH, var, cut, title, nbinsx, xlow, xup, plotname, plotdir, options);
 
     // You can put in the parameters directly as in the following commented out line:
-    //MakePlot(ev->ZH, "H_pt", cut, "; p_{T}(jj) [GeV]", 16, 0, 240., process + "_Hpt", plotdir, options);
+    //MakePlot(ev->ZH, "HCSV_pt", cut, "; p_{T}(jj) [GeV]", 16, 0, 240., process + "_Hpt", plotdir, options);
     */
 
     ////////////////////////////////////////////////////////////////////////////
@@ -59,7 +59,7 @@ void plotHistos_Zmm() {
     TCut cutdata_all = "Vtype==0";   // change this to your channel
     ev->read(cutmc_all, cutdata_all, "VH:ZJ");  // read both VH and ZJ processes
 
-    TString var      = "H_mass";
+    TString var      = "HCSV_mass";
     TCut cut         = "V_pt>120";
     //TCut cut         = "V_pt>120 && Jet_pt[hJCidx[0]]>30 && Jet_pt[hJCidx[1]]>30";  // for Wln, Znn, change to tighter cut
     TString title    = ";m(jj) [GeV]";
@@ -111,7 +111,7 @@ void plotHistos_Zmm() {
     //TString channel  = "Wmn";
 
     // These are loose cuts for all plots in this particular channel
-    //TCut cutmc_all   = "Vtype==2 && H_pt>80 && Jet_pt[hJCidx[0]]>30 && Jet_pt[hJCidx[1]]>30 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && Jet_id[hJCidx[0]]==1 && Jet_id[hJCidx[1]]==1 && Jet_puId[hJCidx[0]]>0 && Jet_puId[hJCidx[1]]>0 && vLeptons_pt[0]>30 && abs(vLeptons_eta[0])<2.4 && met_pt >45 && nalep==0 && Sum$(aJet_pt>20 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0";
+    //TCut cutmc_all   = "Vtype==2 && HCSV_pt>80 && Jet_pt[hJCidx[0]]>30 && Jet_pt[hJCidx[1]]>30 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && Jet_id[hJCidx[0]]==1 && Jet_id[hJCidx[1]]==1 && Jet_puId[hJCidx[0]]>0 && Jet_puId[hJCidx[1]]>0 && vLeptons_pt[0]>30 && abs(vLeptons_eta[0])<2.4 && met_pt >45 && nalep==0 && Sum$(aJet_pt>20 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0";
     //cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4 && abs(HVdPhi)>2.0";  // tighter cut
     //TCut cutdata_all = cutmc_all;
     //cutmc_all       *= "weightTrig2012";  // apply trigger weight for MC
@@ -125,7 +125,7 @@ void plotHistos_Zmm() {
     //TString channel  = "Wen";
 
     // These are loose cuts for all plots in this particular channel
-    //TCut cutmc_all   = "Vtype==3 && H_pt>80 && Jet_pt[hJCidx[0]]>30 && Jet_pt[hJCidx[1]]>30 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && Jet_id[hJCidx[0]]==1 && Jet_id[hJCidx[1]]==1 && Jet_puId[hJCidx[0]]>0 && Jet_puId[hJCidx[1]]>0 && vLeptons_pt[0]>30 && abs(vLeptons_eta[0])<2.5 && met_pt >45 && nalep==0 && Sum$(aJet_pt>20 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0";
+    //TCut cutmc_all   = "Vtype==3 && HCSV_pt>80 && Jet_pt[hJCidx[0]]>30 && Jet_pt[hJCidx[1]]>30 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && Jet_id[hJCidx[0]]==1 && Jet_id[hJCidx[1]]==1 && Jet_puId[hJCidx[0]]>0 && Jet_puId[hJCidx[1]]>0 && vLeptons_pt[0]>30 && abs(vLeptons_eta[0])<2.5 && met_pt >45 && nalep==0 && Sum$(aJet_pt>20 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0";
     //cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4 && abs(HVdPhi)>2.0";  // tighter cut
     //TCut cutdata_all = cutmc_all;
     //cutmc_all       *= "weightTrig2012";  // apply trigger weight for MC
@@ -139,7 +139,7 @@ void plotHistos_Zmm() {
     //TString channel  = "Znn";
 
     // These are loose cuts for all plots in this particular channel
-    //TCut cutmc_all   = "Vtype==4 && H_pt>130 && Jet_pt[hJCidx[0]]>80 && Jet_pt[hJCidx[1]]>30 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && Jet_id[hJCidx[0]]==1 && Jet_id[hJCidx[1]]==1 && Jet_puId[hJCidx[0]]>0 && Jet_puId[hJCidx[1]]>0 && nalep==0 && Sum$(aJet_pt>25 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0 && min(Min$(abs(deltaPhi(met_phi,hJet_phi))),Min$(abs(deltaPhiMETjets(met_phi,aJet_phi,aJet_pt,aJet_eta)))+999*(Sum$(aJet_pt>25 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0) )>0.5";
+    //TCut cutmc_all   = "Vtype==4 && HCSV_pt>130 && Jet_pt[hJCidx[0]]>80 && Jet_pt[hJCidx[1]]>30 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && Jet_id[hJCidx[0]]==1 && Jet_id[hJCidx[1]]==1 && Jet_puId[hJCidx[0]]>0 && Jet_puId[hJCidx[1]]>0 && nalep==0 && Sum$(aJet_pt>25 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0 && min(Min$(abs(deltaPhi(met_phi,hJet_phi))),Min$(abs(deltaPhiMETjets(met_phi,aJet_phi,aJet_pt,aJet_eta)))+999*(Sum$(aJet_pt>25 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0) )>0.5";
     //cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4 && abs(HVdPhi)>2.0";  // tighter cut
     //TCut cutdata_all = cutmc_all;
     //cutmc_all       *= "(triggerFlags[42]==1 || triggerFlags[39]==1 || triggerFlags[41]==1)"; // apply trigger bits and MET cleaning for MC (they are already applied on data)
@@ -178,18 +178,18 @@ void plotHistos_Zmm() {
     //double mincsv = 0.5;
     //double dPhi   = 2.95;
 
-    // If doing cut and count analysis, cut on H_mass by changing the values of minhmass and maxhmass
+    // If doing cut and count analysis, cut on HCSV_mass by changing the values of minhmass and maxhmass
     //double minhmass = 0.;
     //double maxhmass = 9999.;
     double minhmass = 110.;
     double maxhmass = 140.;
 
     // These are tight cuts for this particular plot
-    //TCut cutmc = Form("V_pt>%.2f && H_pt>%.2f && max(Jet_btagCSV[hJCidx[0]],Jet_btagCSV[hJCidx[1]])>%.3f && min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>%.3f && abs(HVdPhi)>%.2f && %.2f<H_mass && H_mass<%.2f", vpt, hpt, maxcsv, mincsv, dPhi, minhmass, maxhmass);
-    TCut cutmc = Form("V_pt>%.2f && H_pt>%.2f && max(Jet_btagCSV[hJCidx[0]],Jet_btagCSV[hJCidx[1]])>%.3f && min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>%.3f && %.2f<H_mass && H_mass<%.2f", vpt, hpt, maxcsv, mincsv, minhmass, maxhmass);
+    //TCut cutmc = Form("V_pt>%.2f && HCSV_pt>%.2f && max(Jet_btagCSV[hJCidx[0]],Jet_btagCSV[hJCidx[1]])>%.3f && min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>%.3f && abs(HVdPhi)>%.2f && %.2f<HCSV_mass && HCSV_mass<%.2f", vpt, hpt, maxcsv, mincsv, dPhi, minhmass, maxhmass);
+    TCut cutmc = Form("V_pt>%.2f && HCSV_pt>%.2f && max(Jet_btagCSV[hJCidx[0]],Jet_btagCSV[hJCidx[1]])>%.3f && min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>%.3f && %.2f<HCSV_mass && HCSV_mass<%.2f", vpt, hpt, maxcsv, mincsv, minhmass, maxhmass);
     TCut cutdata = cutmc;
 
-    TString var      = "H_mass";
+    TString var      = "HCSV_mass";
     TString title    = ";m(jj) [GeV]";
     TString plotname = channel + "_Hmass";
     int nbinsx       = 15;
@@ -200,7 +200,7 @@ void plotHistos_Zmm() {
     MakePlots(ev, var, cutmc, cutdata, title, nbinsx, xlow, xup, plotname, plotdir, options);
 
     // Or, just put in them directly as in the following commented out line:
-    //MakePlots(ev, "H_mass", cutmc, cutdata, "m(jj) [GeV]", 15, 30.0, 255.0, channel+"_Hmass", plotdir, "printStat:plotSig:!plotData:!plotLog");
+    //MakePlots(ev, "HCSV_mass", cutmc, cutdata, "m(jj) [GeV]", 15, 30.0, 255.0, channel+"_Hmass", plotdir, "printStat:plotSig:!plotData:!plotLog");
 
 
     ////////////////////////////////////////////////////////////////////////////
@@ -213,12 +213,12 @@ void plotHistos_Zmm() {
     bool    useshapes = false;
     TString options1  = "!unblind:SplusB";
 
-    // For cut-and-count analysis, apply H_mass cut before calling MakeDatacard(...)
+    // For cut-and-count analysis, apply HCSV_mass cut before calling MakeDatacard(...)
     MakeDatacard(channel, dcname, wsname, useshapes, options1);
 
 
-    // For shape analysis, remove H_mass cut before calling MakeDatacard(...)
-    //cutmc = Form("V_pt>%.2f && H_pt>%.2f && max(Jet_btagCSV[hJCidx[0]],Jet_btagCSV[hJCidx[1]])>%.3f && min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>%.3f && abs(HVdPhi)>%.2f", vpt, hpt, maxcsv, mincsv, dPhi);
+    // For shape analysis, remove HCSV_mass cut before calling MakeDatacard(...)
+    //cutmc = Form("V_pt>%.2f && HCSV_pt>%.2f && max(Jet_btagCSV[hJCidx[0]],Jet_btagCSV[hJCidx[1]])>%.3f && min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>%.3f && abs(HVdPhi)>%.2f", vpt, hpt, maxcsv, mincsv, dPhi);
     //cutdata = cutmc;
     //plotname = channel + "_Hmass_shapes";
     //MakePlots(ev, var, cutmc, cutdata, title, nbinsx, xlow, xup, plotname, plotdir, options);
