@@ -747,16 +747,17 @@ Events::~Events() {
 }
 
 void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
-    //TString indir = "/eos/uscms/store/user/cmsdas/2016/Hbb/heppy_v14/";
-    TString indir = "/eos/uscms/store/user/lpchbb/HeppyNtuples/V14/";
+    std::cout << "Begin Events::read " << std::endl;
+    //TString indir = "root://cmsxrootd.fnal.gov///store/user/cmsdas/2016/Hbb/heppy_v14/"; //for /eos/uscms/store/user/cmsdas/...
+    TString indir = "root://cmsxrootd.fnal.gov///store/user/lpchbb/HeppyNtuples/V14/";
     TString prefix = "";
     TString suffix = ".root";
     TString treename = "tree";
 
-    //TCut cutHF = "eventFlav==5";  //< for b quarks, pdgId = 5
-    //TCut cutLF = "eventFlav!=5";  //< for non-b quarks
     TCut cutHF = "Sum$(GenJet_pt>20 && abs(GenJet_eta)<2.4 && GenJet_numBHadrons>0)>=1 || Sum$(GenJet_pt>20 && abs(GenJet_eta)<2.4 && GenJet_numCHadrons>0)>=1";
     TCut cutLF = "Sum$(GenJet_pt>20 && abs(GenJet_eta)<2.4 && GenJet_numBHadrons>0)==0 && Sum$(GenJet_pt>20 && abs(GenJet_eta)<2.4 && GenJet_numCHadrons>0)==0";
+    //TCut cutHF = "";
+    //TCut cutLF = "";
 
     std::map<std::string, float> lumis = GetLumis();
 
@@ -796,14 +797,14 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     }
 
     if (loadWJ) {
-      //TChain WjLF_(treename);
-      //WjLF_.Add(indir + prefix + "WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
-      //WjLF = (TTree *) WjLF_.CopyTree(cutmc_all + cutLF);
-      TChain* WjLF_ = new TChain(treename);
-      WjLF_->Add(indir + prefix + "WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
-      WjLF = (TTree *) WjLF_->CopyTree(cutmc_all + cutLF);
-        lumi_WjLF = lumis["WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
-        std::clog << "... DONE: WjLF copy tree. N=" << WjLF->GetEntries() << std::endl;
+      TChain WjLF_(treename);
+      WjLF_.Add(indir + prefix + "WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
+      WjLF = (TTree *) WjLF_.CopyTree(cutmc_all + cutLF);
+      //TChain* WjLF_ = new TChain(treename);
+      //WjLF_->Add(indir + prefix + "WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
+      //WjLF = (TTree *) WjLF_->CopyTree(cutmc_all + cutLF);
+      lumi_WjLF = lumis["WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
+      std::clog << "... DONE: WjLF copy tree. N=" << WjLF->GetEntries() << std::endl;
 
         TChain WjHF_(treename);
         WjHF_.Add(indir + prefix + "WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
