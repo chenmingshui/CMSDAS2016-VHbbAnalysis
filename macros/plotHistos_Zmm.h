@@ -777,6 +777,7 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     // Monte Carlo______________________________________________________________
     // NOTE: for Zll, use the default "ZllH"
     // NOTE: for Znn, change "ZllH" to "ZnnH"
+    loadZH=false; loadWH=false;
     if (loadZH) {
         TChain ZH_(treename);
         ZH_.Add(indir + prefix + "ZH_HToBB_ZToLL_M125_13TeV_powheg_pythia8" + suffix);
@@ -799,16 +800,15 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     if (loadWJ) {
       TChain WjLF_(treename);
       WjLF_.Add(indir + prefix + "WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
-      WjLF = (TTree *) WjLF_.CopyTree(cutmc_all + cutLF);
-      //TChain* WjLF_ = new TChain(treename);
-      //WjLF_->Add(indir + prefix + "WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
-      //WjLF = (TTree *) WjLF_->CopyTree(cutmc_all + cutLF);
+      TTree* WjLF_temp = (TTree *) WjLF_.CopyTree(cutmc_all);//Workaround, to be understood why cutmc_all+cutLF crashes
+      WjLF = (TTree *) WjLF_temp->CopyTree(cutLF);
       lumi_WjLF = lumis["WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
       std::clog << "... DONE: WjLF copy tree. N=" << WjLF->GetEntries() << std::endl;
 
         TChain WjHF_(treename);
         WjHF_.Add(indir + prefix + "WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
-        WjHF = (TTree *) WjHF_.CopyTree(cutmc_all + cutHF);
+	TTree* WjHF_temp = (TTree *) WjHF_.CopyTree(cutmc_all);
+        WjHF = (TTree *) WjHF_temp->CopyTree(cutHF);
         lumi_WjHF = lumis["WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
         std::clog << "... DONE: WjHF copy tree. N=" << WjHF->GetEntries() << std::endl;
     }
@@ -818,7 +818,8 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
         // NOTE: for Znn, change "DYJetsPtZ100" to "ZJetsPtZ100"
         TChain ZjLF_(treename);
         ZjLF_.Add(indir + prefix + "DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
-        ZjLF = (TTree *) ZjLF_.CopyTree(cutmc_all + cutLF);
+        TTree* ZjLF_temp = (TTree *) ZjLF_.CopyTree(cutmc_all);
+	ZjLF = (TTree *) ZjLF_temp->CopyTree(cutLF);
         lumi_ZjLF = lumis["DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
         //ZjLF_.Add(indir + prefix + "ZJetsPtZ100" + suffix);
         //ZjLF = (TTree *) ZjLF_.CopyTree(cutmc_all + cutLF);
@@ -829,7 +830,8 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
         // NOTE: for Znn, change "DYJetsPtZ100" to "ZJetsPtZ100"
         TChain ZjHF_(treename);
         ZjHF_.Add(indir + prefix + "DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
-        ZjHF = (TTree *) ZjHF_.CopyTree(cutmc_all + cutHF);
+        TTree* ZjHF_temp = (TTree *) ZjHF_.CopyTree(cutmc_all);
+	ZjHF = (TTree *) ZjHF_temp->CopyTree(cutHF);
         lumi_ZjHF = lumis["DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
         //ZjHF_.Add(indir + prefix + "ZJetsPtZ100" + suffix);
         //ZjHF = (TTree *) ZjHF_.CopyTree(cutmc_all + cutHF);
