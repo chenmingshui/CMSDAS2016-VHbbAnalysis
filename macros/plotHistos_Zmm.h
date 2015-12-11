@@ -777,7 +777,7 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     // Monte Carlo______________________________________________________________
     // NOTE: for Zll, use the default "ZllH"
     // NOTE: for Znn, change "ZllH" to "ZnnH"
-    loadZH=false; loadWH=false;
+
     if (loadZH) {
         TChain ZH_(treename);
         ZH_.Add(indir + prefix + "ZH_HToBB_ZToLL_M125_13TeV_powheg_pythia8" + suffix);
