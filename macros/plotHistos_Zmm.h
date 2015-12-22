@@ -943,14 +943,7 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     // NOTE: for Znn, change both "SingleMu" to "MET"
     if (loadData) {
         TChain data_obs_(treename);
-        data_obs_.Add(indir + prefix + "SingleMuon" + suffix);
-        //data_obs_.Add(indir + prefix + "SingleMuon-v2" + suffix);
-        //data_obs_.Add(indir + prefix + "SingleEl_ReReco" + suffix);
-        //data_obs_.Add(indir + prefix + "SingleEl_Prompt" + suffix);
-        //data_obs_.Add(indir + prefix + "DoubleEl_ReReco" + suffix);
-        //data_obs_.Add(indir + prefix + "DoubleEl_Prompt" + suffix);
-        //data_obs_.Add(indir + prefix + "MET_ReReco" + suffix);
-        //data_obs_.Add(indir + prefix + "MET_Prompt" + suffix);
+        data_obs_.Add(indir + prefix + "DoubleMuon" + suffix);
         data_obs = (TTree *) data_obs_.CopyTree(cutdata_all);
         std::clog << "... DONE: data_obs copy tree. N=" << data_obs->GetEntries() << std::endl;
     }
