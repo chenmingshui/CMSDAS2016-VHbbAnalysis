@@ -10,6 +10,7 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "TH1.h"
+#include "TH1D.h"
 #include "THStack.h"
 #include "TCut.h"
 #include "TString.h"
@@ -199,6 +200,8 @@ void MakePlots(const Events * ev, TString var,
                TString plotname="plot", TString plotdir="",
                TString options="printStat:plotSig:plotData:plotLog") {
 
+    TCanvas * c1 = new TCanvas("c1", "c1", 700, 700);
+
     std::clog << "MakePlots(): Plot var: " << var << std::endl;
     std::clog << "MakePlots(): Using cutmc: " << cutmc << ", cutdata: " << cutdata << std::endl;
 
@@ -228,6 +231,7 @@ void MakePlots(const Events * ev, TString var,
     // Draw histograms, apply cut and MC event weights (= equiv_lumi * PUweight)
     if (plotSig) {
         ev->ZH->Project("ZH", var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_ZH));
+        //ev->ZH->Project("ZH", var,  Form("%5f * puWeight*sign(genWeight)", ev->lumi_ZH));//test
         std::clog << "... DONE: project ZH." << std::endl;
 
         ev->WH->Project("WH", var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_WH));
@@ -245,7 +249,7 @@ void MakePlots(const Events * ev, TString var,
 
     ev->ZjHF->Project("ZjHF", var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_ZjHF) * Form("%f", ev->sf_ZjHF));
     std::clog << "... DONE: project ZjHF, scaled by " << ev->sf_ZjHF << "." << std::endl;
-
+    
     //ev->TT->Project("TT", var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_TT) * Form("%f", ev->sf_TT));
     //std::clog << "... DONE: project TT, scaled by " << ev->sf_TT << "." << std::endl;
 
@@ -267,11 +271,14 @@ void MakePlots(const Events * ev, TString var,
     ev->VV_WZ->Project("+VV", var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_VV_WZ));
     ev->VV_ZZ->Project("+VV", var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_VV_ZZ));
     std::clog << "... DONE: project VV." << std::endl;
+    
 
+    cout << "PLOT DATA = " << plotData << endl;
     if (plotData) {
-        ev->data_obs->Project("data_obs", var, cutdata);
+      ev->data_obs->Project("data_obs", var, cutdata);
     }
     std::clog << "... DONE: project data_obs." << std::endl;
+
 
     // Sum histograms
     hVH->Add(hZH);
@@ -316,7 +323,7 @@ void MakePlots(const Events * ev, TString var,
     }
 
     // Setup canvas and pads
-    TCanvas * c1 = new TCanvas("c1", "c1", 700, 700);
+    //TCanvas * c1 = new TCanvas("c1", "c1", 700, 700);
     TPad * pad1 = new TPad("pad1", "top pad"   , 0.0, 0.3, 1.0, 1.0);
     pad1->SetBottomMargin(0.0);
     pad1->Draw();
@@ -326,7 +333,6 @@ void MakePlots(const Events * ev, TString var,
     pad2->Draw();
     pad1->cd();
     pad1->SetLogy(plotLog);
-
     // Setup histogram styles
     set_style(hVH, "VH");
     set_style(hZH, "VH");
@@ -402,7 +408,8 @@ void MakePlots(const Events * ev, TString var,
                                 pow(0.20 * hZjHF->GetBinContent(i), 2) +
                                 pow(0.07 * hTT->GetBinContent(i), 2) +
                                 pow(0.25 * hST->GetBinContent(i), 2) +
-                                pow(0.25 * hVV->GetBinContent(i), 2));
+                                pow(0.25 * hVV->GetBinContent(i), 2)
+				);
 
             double binerror = sqrt(binerror2);
             ratiosysterr->SetBinError(i, binerror / hmc_exp->GetBinContent(i));
@@ -520,6 +527,7 @@ void MakePlots(const Events * ev, TString var,
     gPad->Print(plotdir+plotname+".pdf");
 
     TFile* outrootfile = TFile::Open(plotdir+plotname+".root", "RECREATE");
+    outrootfile->cd();
     hZH->Write();
     hWH->Write();
     hWjLF->Write();
@@ -749,8 +757,12 @@ Events::~Events() {
 void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     std::cout << "Begin Events::read " << std::endl;
     //TString indir = "root://cmsxrootd.fnal.gov///store/user/cmsdas/2016/Hbb/heppy_v14/"; //for /eos/uscms/store/user/cmsdas/...
-    TString indir = "root://cmsxrootd.fnal.gov///store/user/lpchbb/HeppyNtuples/V14/";
-    TString prefix = "";
+    //TString indir = "root://cmsxrootd.fnal.gov///store/user/lpchbb/HeppyNtuples/V14/";
+    //TString indir = "/eos/uscms/store/user/lpchbb/HeppyNtuples/V14/";
+    TString indir = "/eos/uscms/store/user/cmsdas/2016/Hbb/heppy_v14/skims/";
+    //TString indir = "root://cmsxrootd.fnal.gov///store/user/cmsdas/2016/Hbb/heppy_v14/skims/"; 
+    TString prefix = "skim_";
+    //TString prefix = "";
     TString suffix = ".root";
     TString treename = "tree";
 
@@ -772,8 +784,8 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     bool loadST   = processes.Contains("ST") || loadAll;
     bool loadVV   = processes.Contains("VV") || loadAll;
     bool loadData = processes.Contains("DATA") || processes.Contains("Data") || processes.Contains("data") || loadAll;
-
-
+    //loadTT=false; loadST=false; loadVV=false;
+    
     // Monte Carlo______________________________________________________________
     // NOTE: for Zll, use the default "ZllH"
     // NOTE: for Znn, change "ZllH" to "ZnnH"
@@ -932,7 +944,7 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     if (loadData) {
         TChain data_obs_(treename);
         data_obs_.Add(indir + prefix + "SingleMuon" + suffix);
-        data_obs_.Add(indir + prefix + "SingleMuon-v2" + suffix);
+        //data_obs_.Add(indir + prefix + "SingleMuon-v2" + suffix);
         //data_obs_.Add(indir + prefix + "SingleEl_ReReco" + suffix);
         //data_obs_.Add(indir + prefix + "SingleEl_Prompt" + suffix);
         //data_obs_.Add(indir + prefix + "DoubleEl_ReReco" + suffix);

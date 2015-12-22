@@ -71,22 +71,20 @@ void plotHistos_Zmm() {
 
     // Using "ev->ZH" for ZH and "ev->ZjHF" for Z+HF
     MakePlot2(ev->ZH, ev->ZjHF, var, cut, title, nbinsx, xlow, xup, plotname, plotdir, options);
+    
     */
-
     ////////////////////////////////////////////////////////////////////////////
     // Task 2                                                                 //
     // - please comment out other tasks                                       //
     ////////////////////////////////////////////////////////////////////////////
-
+      
     // Zmm______________________________________________________________________
     TString channel  = "Zmm";
 
     // These are loose cuts for all plots in this particular channel
     TCut cutmc_all   = "Vtype==0 && V_pt>120 && Jet_pt[hJCidx[0]]>20 && Jet_pt[hJCidx[1]]>20 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && vLeptons_pt[0]>20 && vLeptons_pt[1]>20 && abs(vLeptons_eta[0])<2.4 && abs(vLeptons_eta[1])<2.4 && met_pt<60 && 75<V_mass && V_mass<105 && deltaR_jj<1.6";
-    cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4";  // tighter cut
-    //cutmc_all       += "V_pt>300";//BEN DEBUGGING FIXME
+    cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4";  // more b-like
     TCut cutdata_all = cutmc_all;
-    //cutmc_all       *= "weightTrig2012";  // apply trigger weight for MC
 
     // Scale factors in order of: WjLF, WjHF, ZjLF, ZjHF, TT
     // NOTE: WjLF, WjHF are not needed for Zll
@@ -97,10 +95,9 @@ void plotHistos_Zmm() {
     //TString channel  = "Zee";
 
     // These are loose cuts for all plots in this particular channel
-    //TCut cutmc_all   = "Vtype==1 && V_pt>120 && Jet_pt[hJCidx[0]]>20 && Jet_pt[hJCidx[1]]>20 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && Jet_id[hJCidx[0]]==1 && Jet_id[hJCidx[1]]==1 && Jet_puId[hJCidx[0]]>0 && Jet_puId[hJCidx[1]]>0 && vLeptons_pt[0]>20 && vLeptons_pt[1]>20 && abs(vLeptons_eta[0])<2.5 && abs(vLeptons_eta[1])<2.5 && met_pt<60 && 75<V_mass && V_mass<105 && deltaR_jj<1.6";
+    //TCut cutmc_all   = "Vtype==1 && V_pt>120 && Jet_pt[hJCidx[0]]>20 && Jet_pt[hJCidx[1]]>20 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && vLeptons_pt[0]>20 && vLeptons_pt[1]>20 && abs(vLeptons_eta[0])<2.5 && abs(vLeptons_eta[1])<2.5 && met_pt<60 && 75<V_mass && V_mass<105 && deltaR_jj<1.6";
     //cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4";  // tighter cut
     //TCut cutdata_all = cutmc_all;
-    //cutmc_all       *= "weightTrig2012";  // apply trigger weight for MC
 
     // Scale factors in order of: WjLF, WjHF, ZjLF, ZjHF, TT
     // NOTE: WjLF, WjHF are not needed for Zll
@@ -111,10 +108,9 @@ void plotHistos_Zmm() {
     //TString channel  = "Wmn";
 
     // These are loose cuts for all plots in this particular channel
-    //TCut cutmc_all   = "Vtype==2 && HCSV_pt>80 && Jet_pt[hJCidx[0]]>30 && Jet_pt[hJCidx[1]]>30 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && Jet_id[hJCidx[0]]==1 && Jet_id[hJCidx[1]]==1 && Jet_puId[hJCidx[0]]>0 && Jet_puId[hJCidx[1]]>0 && vLeptons_pt[0]>30 && abs(vLeptons_eta[0])<2.4 && met_pt >45 && nalep==0 && Sum$(aJet_pt>20 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0";
-    //cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4 && abs(HVdPhi)>2.0";  // tighter cut
+    //TCut cutmc_all   = "Vtype==2 && HCSV_pt>80 && Jet_pt[hJCidx[0]]>30 && Jet_pt[hJCidx[1]]>30 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && vLeptons_pt[0]>30 && abs(vLeptons_eta[0])<2.4 && met_pt >45 && naLeptons==0 && Sum$(Jet_pt > 20 & abs(Jet_eta) < 2.4)<3";
+    //cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4 && min(abs(HCSV_phi-V_phi),(2*TMath::Pi())-abs(HCSV_phi-V_phi))>2.0";  // tighter cut
     //TCut cutdata_all = cutmc_all;
-    //cutmc_all       *= "weightTrig2012";  // apply trigger weight for MC
 
     // Scale factors in order of: WjLF, WjHF, ZjLF, ZjHF, TT
     // NOTE: ZjLF, ZjHF are not needed for Wln
@@ -125,10 +121,9 @@ void plotHistos_Zmm() {
     //TString channel  = "Wen";
 
     // These are loose cuts for all plots in this particular channel
-    //TCut cutmc_all   = "Vtype==3 && HCSV_pt>80 && Jet_pt[hJCidx[0]]>30 && Jet_pt[hJCidx[1]]>30 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && Jet_id[hJCidx[0]]==1 && Jet_id[hJCidx[1]]==1 && Jet_puId[hJCidx[0]]>0 && Jet_puId[hJCidx[1]]>0 && vLeptons_pt[0]>30 && abs(vLeptons_eta[0])<2.5 && met_pt >45 && nalep==0 && Sum$(aJet_pt>20 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0";
-    //cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4 && abs(HVdPhi)>2.0";  // tighter cut
+    //TCut cutmc_all   = "Vtype==3 && HCSV_pt>80 && Jet_pt[hJCidx[0]]>30 && Jet_pt[hJCidx[1]]>30 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && vLeptons_pt[0]>30 && abs(vLeptons_eta[0])<2.5 && met_pt >45 && naLeptons==0 && Sum$(Jet_pt > 20 & abs(Jet_eta) < 2.4)<3";
+    //cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4 && min(abs(HCSV_phi-V_phi),(2*TMath::Pi())-abs(HCSV_phi-V_phi))>2.0";  // tighter cut
     //TCut cutdata_all = cutmc_all;
-    //cutmc_all       *= "weightTrig2012";  // apply trigger weight for MC
 
     // Scale factors in order of: WjLF, WjHF, ZjLF, ZjHF, TT
     // NOTE: ZjLF, ZjHF are not needed for Wln
@@ -139,8 +134,9 @@ void plotHistos_Zmm() {
     //TString channel  = "Znn";
 
     // These are loose cuts for all plots in this particular channel
-    //TCut cutmc_all   = "Vtype==4 && HCSV_pt>130 && Jet_pt[hJCidx[0]]>80 && Jet_pt[hJCidx[1]]>30 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && Jet_id[hJCidx[0]]==1 && Jet_id[hJCidx[1]]==1 && Jet_puId[hJCidx[0]]>0 && Jet_puId[hJCidx[1]]>0 && nalep==0 && Sum$(aJet_pt>25 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0 && min(Min$(abs(deltaPhi(met_phi,hJet_phi))),Min$(abs(deltaPhiMETjets(met_phi,aJet_phi,aJet_pt,aJet_eta)))+999*(Sum$(aJet_pt>25 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0) )>0.5";
-    //cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4 && abs(HVdPhi)>2.0";  // tighter cut
+    //TCut cutmc_all   = "Vtype==4 && HCSV_pt>130 && Jet_pt[hJCidx[0]]>80 && Jet_pt[hJCidx[1]]>30 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && naLeptons==0 && Sum$(Jet_pt > 20 & abs(Jet_eta) < 2.4)<5"; 
+    //&& min(Min$(abs(deltaPhi(met_phi,hJet_phi))),Min$(abs(deltaPhiMETjets(met_phi,aJet_phi,aJet_pt,aJet_eta)))+999*(Sum$(aJet_pt>25 && abs(aJet_eta)<4.5 && aJet_id==1 && aJet_puJetIdL>0)==0) )>0.5";//needs to be updated to 13 TeV
+    //cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4 && min(abs(HCSV_phi-V_phi),(2*TMath::Pi())-abs(HCSV_phi-V_phi))>2.0";  // tighter cut
     //TCut cutdata_all = cutmc_all;
     //cutmc_all       *= "(triggerFlags[42]==1 || triggerFlags[39]==1 || triggerFlags[41]==1)"; // apply trigger bits and MET cleaning for MC (they are already applied on data)
     //cutmc_all       *= "triggercorrMET(met_pt)";
@@ -185,8 +181,7 @@ void plotHistos_Zmm() {
     double maxhmass = 140.;
 
     // These are tight cuts for this particular plot
-    //TCut cutmc = Form("V_pt>%.2f && HCSV_pt>%.2f && max(Jet_btagCSV[hJCidx[0]],Jet_btagCSV[hJCidx[1]])>%.3f && min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>%.3f && abs(HVdPhi)>%.2f && %.2f<HCSV_mass && HCSV_mass<%.2f", vpt, hpt, maxcsv, mincsv, dPhi, minhmass, maxhmass);
-    TCut cutmc = Form("V_pt>%.2f && HCSV_pt>%.2f && max(Jet_btagCSV[hJCidx[0]],Jet_btagCSV[hJCidx[1]])>%.3f && min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>%.3f && %.2f<HCSV_mass && HCSV_mass<%.2f", vpt, hpt, maxcsv, mincsv, minhmass, maxhmass);
+    TCut cutmc = Form("V_pt>%.2f && HCSV_pt>%.2f && max(Jet_btagCSV[hJCidx[0]],Jet_btagCSV[hJCidx[1]])>%.3f && min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>%.3f && min(abs(HCSV_phi-V_phi),(2*TMath::Pi())-abs(HCSV_phi-V_phi))>%.2f && %.2f<HCSV_mass && HCSV_mass<%.2f", vpt, hpt, maxcsv, mincsv, dPhi, minhmass, maxhmass);
     TCut cutdata = cutmc;
 
     TString var      = "HCSV_mass";
@@ -195,19 +190,20 @@ void plotHistos_Zmm() {
     int nbinsx       = 15;
     double xlow      = 30.0;
     double xup       = 255.0;
-    TString options  = "printStat:plotSig:!plotData:!plotLog";
 
+    TString options  = "printStat:plotSig:plotData:!plotLog";
     MakePlots(ev, var, cutmc, cutdata, title, nbinsx, xlow, xup, plotname, plotdir, options);
 
+
     // Or, just put in them directly as in the following commented out line:
-    //MakePlots(ev, "HCSV_mass", cutmc, cutdata, "m(jj) [GeV]", 15, 30.0, 255.0, channel+"_Hmass", plotdir, "printStat:plotSig:!plotData:!plotLog");
+    //MakePlots(ev, "HCSV_mass", cutmc, cutdata, "m(jj) [GeV]", 14, 30.0, 255.0, channel+"_Hmass", plotdir, "printStat:plotSig:!plotData:!plotLog");
 
-
+    
     ////////////////////////////////////////////////////////////////////////////
     // Task 3                                                                 //
     // - please comment out other tasks, but keep Task 2                      //
     ////////////////////////////////////////////////////////////////////////////
-
+    /*
     TString dcname    = Form("vhbb_%s_13TeV.txt", channel.Data());   // the datacard name
     TString wsname    = plotdir + plotname +".root";                // the workspace name
     bool    useshapes = false;
@@ -218,7 +214,7 @@ void plotHistos_Zmm() {
 
 
     // For shape analysis, remove HCSV_mass cut before calling MakeDatacard(...)
-    //cutmc = Form("V_pt>%.2f && HCSV_pt>%.2f && max(Jet_btagCSV[hJCidx[0]],Jet_btagCSV[hJCidx[1]])>%.3f && min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>%.3f && abs(HVdPhi)>%.2f", vpt, hpt, maxcsv, mincsv, dPhi);
+    //cutmc = Form("V_pt>%.2f && HCSV_pt>%.2f && max(Jet_btagCSV[hJCidx[0]],Jet_btagCSV[hJCidx[1]])>%.3f && min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>%.3f && min(abs(HCSV_phi-V_phi),(2*TMath::Pi())-abs(HCSV_phi-V_phi))>%.2f", vpt, hpt, maxcsv, mincsv, dPhi);
     //cutdata = cutmc;
     //plotname = channel + "_Hmass_shapes";
     //MakePlots(ev, var, cutmc, cutdata, title, nbinsx, xlow, xup, plotname, plotdir, options);
@@ -228,6 +224,7 @@ void plotHistos_Zmm() {
     //useshapes = true;
     //options1  = "unblind:SplusB";
     //MakeDatacard(channel, dcname, wsname, useshapes, options1);
+    */
 
-
+    delete ev;
 }
