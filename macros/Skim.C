@@ -25,9 +25,12 @@ void Skim(TString process)
     TChain * chain  = new TChain("tree");
 
     //Add to chain
-    TString add_str = "/eos/uscms/store/user/lpchbb/HeppyNtuples/V14/";
+    //TString add_str = "/eos/uscms/store/user/lpchbb/HeppyNtuples/V14/";//mc
+    //TString add_str = "/eos/uscms/store/user/lpchbb/HeppyNtuples/V15/";//data
+    TString add_str = "root://cmsxrootd.fnal.gov///store/user/lpchbb/HeppyNtuples/V15/";//data
     add_str += process;
-    add_str += "*.root";
+    //add_str += "*.root";
+    add_str += ".root";
     cout << "add_str = " << add_str << endl;
     chain->Add(add_str);
 
@@ -65,7 +68,8 @@ void Skim(TString process)
     }
 
     // Make output directory if it doesn't exist
-    TString outdir = "/eos/uscms/store/user/cmsdas/2016/Hbb/heppy_v14/skims/";
+    //TString outdir = "/eos/uscms/store/user/cmsdas/2016/Hbb/heppy_v14/skims/";
+    TString outdir = "root://cmsxrootd.fnal.gov///store/user/cmsdas/2016/Hbb/heppy_v14/skims/";
     if (gSystem->AccessPathName(outdir))
         gSystem->mkdir(outdir);
     TString outname = outdir + "skim_" + Form("%s.root", process.Data());

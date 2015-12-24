@@ -255,7 +255,7 @@ void MakePlots(const Events * ev, TString var,
 
     ev->TT_fl->Project( "TT", var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_TT_fl) * Form("%f", ev->sf_TT));
     std::clog << "Done projecting first TT." << std::endl;
-    ev->TT_sl->Project("+TT", var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_TT_sl) * Form("%f", ev->sf_TT));
+    //ev->TT_sl->Project("+TT", var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_TT_sl) * Form("%f", ev->sf_TT)); //FIXME BEN
     //ev->TT_hd->Project("+TT", var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_TT_hd) * Form("%f", ev->sf_TT)); //no heppy
     std::clog << "... DONE: project TT, scaled by " << ev->sf_TT << "." << std::endl;
 
@@ -759,8 +759,9 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     //TString indir = "root://cmsxrootd.fnal.gov///store/user/cmsdas/2016/Hbb/heppy_v14/"; //for /eos/uscms/store/user/cmsdas/...
     //TString indir = "root://cmsxrootd.fnal.gov///store/user/lpchbb/HeppyNtuples/V14/";
     //TString indir = "/eos/uscms/store/user/lpchbb/HeppyNtuples/V14/";
-    TString indir = "/eos/uscms/store/user/cmsdas/2016/Hbb/heppy_v14/skims/";
+    //TString indir = "/eos/uscms/store/user/cmsdas/2016/Hbb/heppy_v14/skims/";
     //TString indir = "root://cmsxrootd.fnal.gov///store/user/cmsdas/2016/Hbb/heppy_v14/skims/"; 
+    TString indir = "root://cmsxrootd-site.fnal.gov///store/user/cmsdas/2016/Hbb/heppy_v14/skims/"; 
     TString prefix = "skim_";
     //TString prefix = "";
     TString suffix = ".root";
@@ -864,13 +865,14 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
         lumi_TT_fl = lumis["TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
         std::clog << "... DONE: TT_fl copy tree. N=" << TT_fl->GetEntries() << std::endl;
 
+	/*
         TChain TT_sl_(treename);
         TT_sl_.Add(indir + prefix + "TTJets_SingleLeptFromTbar_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
         TT_sl_.Add(indir + prefix + "TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
         TT_sl = (TTree *) TT_sl_.CopyTree(cutmc_all);
         lumi_TT_sl = lumis["TTSemiLeptMG"];
         std::clog << "... DONE: TT_sl copy tree. N=" << TT_sl->GetEntries() << std::endl;
-
+	*/
         //TChain TT_hd_(treename);
         //TT_hd_.Add(indir + prefix + "TTHadronicMG" + suffix);
         //TT_hd = (TTree *) TT_hd_.CopyTree(cutmc_all);
@@ -937,13 +939,10 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     }
 
     // Data_____________________________________________________________________
-    // NOTE: for Zmm and Wmn, use the default "SingleMu"
-    // NOTE: for Wen, change both "SingleMu" to "SingleEl"
-    // NOTE: for Zee, change both "SingleMu" to "DoubleEl"
-    // NOTE: for Znn, change both "SingleMu" to "MET"
     if (loadData) {
         TChain data_obs_(treename);
-        data_obs_.Add(indir + prefix + "DoubleMuon" + suffix);
+        //data_obs_.Add(indir + prefix + "DoubleMuon" + suffix);
+	data_obs_.Add(indir + prefix + "SingleMuon" + suffix);
         data_obs = (TTree *) data_obs_.CopyTree(cutdata_all);
         std::clog << "... DONE: data_obs copy tree. N=" << data_obs->GetEntries() << std::endl;
     }
