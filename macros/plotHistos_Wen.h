@@ -255,7 +255,7 @@ void MakePlots(const Events * ev, TString var,
 
     ev->TT_fl->Project( "TT", var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_TT_fl) * Form("%f", ev->sf_TT));
     std::clog << "Done projecting first TT." << std::endl;
-    ev->TT_sl->Project("+TT", var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_TT_sl) * Form("%f", ev->sf_TT));
+    //ev->TT_sl->Project("+TT", var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_TT_sl) * Form("%f", ev->sf_TT)); //BEN FIXME
     //ev->TT_hd->Project("+TT", var, cutmc * Form("%5f * puWeight*sign(genWeight)", ev->lumi_TT_hd) * Form("%f", ev->sf_TT)); //no heppy
     std::clog << "... DONE: project TT, scaled by " << ev->sf_TT << "." << std::endl;
 
@@ -865,12 +865,14 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
         lumi_TT_fl = lumis["TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
         std::clog << "... DONE: TT_fl copy tree. N=" << TT_fl->GetEntries() << std::endl;
 
+	/*
         TChain TT_sl_(treename);
         TT_sl_.Add(indir + prefix + "TTJets_SingleLeptFromTbar_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
         TT_sl_.Add(indir + prefix + "TTJets_SingleLeptFromT_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
         TT_sl = (TTree *) TT_sl_.CopyTree(cutmc_all);
         lumi_TT_sl = lumis["TTSemiLeptMG"];
         std::clog << "... DONE: TT_sl copy tree. N=" << TT_sl->GetEntries() << std::endl;
+	*/
 
         //TChain TT_hd_(treename);
         //TT_hd_.Add(indir + prefix + "TTHadronicMG" + suffix);
@@ -938,10 +940,6 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     }
 
     // Data_____________________________________________________________________
-    // NOTE: for Zmm and Wmn, use the default "SingleMu"
-    // NOTE: for Wen, change both "SingleMu" to "SingleEl"
-    // NOTE: for Zee, change both "SingleMu" to "DoubleEl"
-    // NOTE: for Znn, change both "SingleMu" to "MET"
     if (loadData) {
         TChain data_obs_(treename);
         data_obs_.Add(indir + prefix + "SingleElectron" + suffix);

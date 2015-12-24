@@ -78,26 +78,47 @@ void plotHistos_Znn() {
     // - please comment out other tasks                                       //
     ////////////////////////////////////////////////////////////////////////////
       
+        
     // Zmm______________________________________________________________________
-    //TString channel  = "Zmm";
+    TString channel  = "Zmm";
 
-    // These are loose cuts for all plots in this particular channel
-    //TCut cutmc_all   = "Vtype==0 && V_pt>120 && Jet_pt[hJCidx[0]]>20 && Jet_pt[hJCidx[1]]>20 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && vLeptons_pt[0]>20 && vLeptons_pt[1]>20 && abs(vLeptons_eta[0])<2.4 && abs(vLeptons_eta[1])<2.4 && met_pt<60 && 75<V_mass && V_mass<105 && deltaR_jj<1.6";
-    //cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4";  // more b-like
-    //TCut cutdata_all = cutmc_all;
+    //Loose cuts for this channel
+    TCut cutmc_all = "Vtype==0 && V_pt>100 && met_pt<60"; // V related
+    cutmc_all += "75<V_mass && V_mass<105"; //Z mass window
+    cutmc_all += "Jet_pt[hJCidx[0]]>20 && Jet_pt[hJCidx[1]]>20 && abs(Jet_eta[hJCidx[0]])<2.4 && abs(Jet_eta[hJCidx[1]])<2.4";// H jets
+    cutmc_all += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4"; //loose b-tag
+    cutmc_all += "Sum$(Jet_pt > 20 & abs(Jet_eta) < 2.4) < 3"; //no additional jets
+
+    TCut met_cleaning = "Flag_hbheFilterNew &&Flag_hbheIsoFilter && Flag_goodVertices &&Flag_eeBadScFilter &&Flag_CSCTightHaloFilter";
+    TCut mc_trigger = "HLT_ZmmHbbAll==1";
+    TCut data_trigger = "HLT_BIT_HLT_IsoMu18_v==1";
+
+    TCut cutdata_all = cutmc_all;
+    cutdata_all += data_trigger;
+    cutmc_all += mc_trigger;
 
     // Scale factors in order of: WjLF, WjHF, ZjLF, ZjHF, TT
     // NOTE: WjLF, WjHF are not needed for Zll
-    //double scalefactors[5] = {1.00, 1.00, 1.00, 1.00, 1.00};
+    double scalefactors[5] = {1.00, 1.00, 1.00, 1.00, 1.00};
 
 
     // Zee______________________________________________________________________
     //TString channel  = "Zee";
 
-    // These are loose cuts for all plots in this particular channel
-    //TCut cutmc_all   = "Vtype==1 && V_pt>120 && Jet_pt[hJCidx[0]]>20 && Jet_pt[hJCidx[1]]>20 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && vLeptons_pt[0]>20 && vLeptons_pt[1]>20 && abs(vLeptons_eta[0])<2.5 && abs(vLeptons_eta[1])<2.5 && met_pt<60 && 75<V_mass && V_mass<105 && deltaR_jj<1.6";
-    //cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4";  // tighter cut
+    //Loose cuts for this channel
+    //TCut cutmc_all = "Vtype==1 && V_pt>100 && met_pt<60"; // V related
+    //cutmc_all += "75<V_mass && V_mass<105"; //Z mass window
+    //cutmc_all += "Jet_pt[hJCidx[0]]>20 && Jet_pt[hJCidx[1]]>20 && abs(Jet_eta[hJCidx[0]])<2.4 && abs(Jet_eta[hJCidx[1]])<2.4";// H jets
+    //cutmc_all += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4"; //loose b-tag
+    //cutmc_all += "Sum$(Jet_pt > 20 & abs(Jet_eta) < 2.4) < 3"; //no additional jets
+
+    //TCut met_cleaning = "Flag_hbheFilterNew &&Flag_hbheIsoFilter && Flag_goodVertices &&Flag_eeBadScFilter &&Flag_CSCTightHaloFilter";
+    //TCut mc_trigger = "HLT_ZeeHbbAll==1";
+    //TCut data_trigger = "HLT_BIT_HLT_Ele27_eta2p1_WPLoose_Gsf_v==1";
+
     //TCut cutdata_all = cutmc_all;
+    //cutdata_all += data_trigger;
+    //cutmc_all += mc_trigger;
 
     // Scale factors in order of: WjLF, WjHF, ZjLF, ZjHF, TT
     // NOTE: WjLF, WjHF are not needed for Zll
@@ -107,11 +128,21 @@ void plotHistos_Znn() {
     // Wmn______________________________________________________________________
     //TString channel  = "Wmn";
 
-    // These are loose cuts for all plots in this particular channel
-    //TCut cutmc_all   = "Vtype==2 && HCSV_pt>80 && Jet_pt[hJCidx[0]]>30 && Jet_pt[hJCidx[1]]>30 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && vLeptons_pt[0]>30 && abs(vLeptons_eta[0])<2.4 && met_pt >45 && naLeptons==0 && Sum$(Jet_pt > 20 & abs(Jet_eta) < 2.4)<3";
-    //cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4 && min(abs(HCSV_phi-V_phi),(2*TMath::Pi())-abs(HCSV_phi-V_phi))>2.0";  // tighter cut
-    //TCut cutdata_all = cutmc_all;
+    //Loose cuts for this channel
+    //TCut cutmc_all = "Vtype==2 && V_pt>100 && met_pt>45"; // V related
+    //cutmc_all +=  "vLeptons_pt[0]>30 && abs(vLeptons_eta[0])<2.4 && naLeptons==0";//one lepton
+    //cutmc_all += "Jet_pt[hJCidx[0]]>20 && Jet_pt[hJCidx[1]]>20 && abs(Jet_eta[hJCidx[0]])<2.4 && abs(Jet_eta[hJCidx[1]])<2.4";// H jets
+    //cutmc_all += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4"; //loose b-tag
+    //cutmc_all += "Sum$(Jet_pt > 20 & abs(Jet_eta) < 2.4) < 3"; //no additional jets
 
+    //TCut met_cleaning = "Flag_hbheFilterNew &&Flag_hbheIsoFilter && Flag_goodVertices &&Flag_eeBadScFilter &&Flag_CSCTightHaloFilter";
+    //TCut mc_trigger = "";
+    //TCut data_trigger = "";
+
+    //TCut cutdata_all = cutmc_all;
+    //cutdata_all += data_trigger;
+    //cutmc_all += mc_trigger;
+    
     // Scale factors in order of: WjLF, WjHF, ZjLF, ZjHF, TT
     // NOTE: ZjLF, ZjHF are not needed for Wln
     //double scalefactors[5] = {1.00, 1.00, 1.00, 1.00, 1.00};
@@ -120,10 +151,20 @@ void plotHistos_Znn() {
     // Wen______________________________________________________________________
     //TString channel  = "Wen";
 
-    // These are loose cuts for all plots in this particular channel
-    //TCut cutmc_all   = "Vtype==3 && HCSV_pt>80 && Jet_pt[hJCidx[0]]>30 && Jet_pt[hJCidx[1]]>30 && abs(Jet_eta[hJCidx[0]])<2.5 && abs(Jet_eta[hJCidx[1]])<2.5 && vLeptons_pt[0]>30 && abs(vLeptons_eta[0])<2.5 && met_pt >45 && naLeptons==0 && Sum$(Jet_pt > 20 & abs(Jet_eta) < 2.4)<3";
-    //cutmc_all       += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4 && min(abs(HCSV_phi-V_phi),(2*TMath::Pi())-abs(HCSV_phi-V_phi))>2.0";  // tighter cut
+    //Loose cuts for this channel
+    //TCut cutmc_all = "Vtype==3 && V_pt>100 && met_pt>45"; // V related
+    //cutmc_all +=  "vLeptons_pt[0]>30 && abs(vLeptons_eta[0])<2.4 && naLeptons==0";//one lepton
+    //cutmc_all += "Jet_pt[hJCidx[0]]>20 && Jet_pt[hJCidx[1]]>20 && abs(Jet_eta[hJCidx[0]])<2.4 && abs(Jet_eta[hJCidx[1]])<2.4";// H jets
+    //cutmc_all += "min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>0.4"; //loose b-tag
+    //cutmc_all += "Sum$(Jet_pt > 20 & abs(Jet_eta) < 2.4) < 3"; //no additional jets
+
+    //TCut met_cleaning = "Flag_hbheFilterNew &&Flag_hbheIsoFilter && Flag_goodVertices &&Flag_eeBadScFilter &&Flag_CSCTightHaloFilter";
+    //TCut mc_trigger = "";
+    //TCut data_trigger = "";
+
     //TCut cutdata_all = cutmc_all;
+    //cutdata_all += data_trigger;
+    //cutmc_all += mc_trigger;
 
     // Scale factors in order of: WjLF, WjHF, ZjLF, ZjHF, TT
     // NOTE: ZjLF, ZjHF are not needed for Wln
@@ -143,7 +184,6 @@ void plotHistos_Znn() {
 
     // Scale factors in order of: WjLF, WjHF, ZjLF, ZjHF, TT
     //double scalefactors[5] = {1.00, 1.00, 1.00, 1.00, 1.00};
-
 
     // All channels_____________________________________________________________
     // Read from ntuples
@@ -181,7 +221,7 @@ void plotHistos_Znn() {
     double maxhmass = 140.;
 
     // These are tight cuts for this particular plot
-    TCut cutmc = Form("V_pt>%.2f && HCSV_pt>%.2f && max(Jet_btagCSV[hJCidx[0]],Jet_btagCSV[hJCidx[1]])>%.3f && min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>%.3f && min(abs(HCSV_phi-V_phi),(2*TMath::Pi())-abs(HCSV_phi-V_phi))>%.2f && %.2f<HCSV_mass && HCSV_mass<%.2f", vpt, hpt, maxcsv, mincsv, dPhi, minhmass, maxhmass);
+    TCut cutmc = Form("V_pt>%.2f && HCSV_pt>%.2f && max(Jet_btagCSV[hJCidx[0]],Jet_btagCSV[hJCidx[1]])>%.3f && min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>%.3f && HVdPhi>%.2f && %.2f<HCSV_mass && HCSV_mass<%.2f", vpt, hpt, maxcsv, mincsv, dPhi, minhmass, maxhmass);
     TCut cutdata = cutmc;
 
     TString var      = "HCSV_mass";

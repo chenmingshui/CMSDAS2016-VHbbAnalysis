@@ -938,10 +938,6 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     }
 
     // Data_____________________________________________________________________
-    // NOTE: for Zmm and Wmn, use the default "SingleMu"
-    // NOTE: for Wen, change both "SingleMu" to "SingleEl"
-    // NOTE: for Zee, change both "SingleMu" to "DoubleEl"
-    // NOTE: for Znn, change both "SingleMu" to "MET"
     if (loadData) {
         TChain data_obs_(treename);
         data_obs_.Add(indir + prefix + "SingleMuon" + suffix);

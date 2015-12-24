@@ -2,7 +2,7 @@
 #include "TROOT.h"
 #include "TStyle.h"
 
-// To run, do "root -l plotHistos_Zen.C+"
+// To run, do "root -l plotHistos_Wen.C+"
 
 void plotHistos_Wen() {
     gROOT->LoadMacro("tdrstyle.C");
@@ -221,7 +221,8 @@ void plotHistos_Wen() {
     double maxhmass = 140.;
 
     // These are tight cuts for this particular plot
-    TCut cutmc = Form("V_pt>%.2f && HCSV_pt>%.2f && max(Jet_btagCSV[hJCidx[0]],Jet_btagCSV[hJCidx[1]])>%.3f && min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>%.3f && HVdPhi>%.2f && %.2f<HCSV_mass && HCSV_mass<%.2f", vpt, hpt, maxcsv, mincsv, dPhi, minhmass, maxhmass);
+    //TCut cutmc = Form("V_pt>%.2f && HCSV_pt>%.2f && max(Jet_btagCSV[hJCidx[0]],Jet_btagCSV[hJCidx[1]])>%.3f && min(Jet_btagCSV[hJCidx[0]], Jet_btagCSV[hJCidx[1]])>%.3f && HVdPhi>%.2f && %.2f<HCSV_mass && HCSV_mass<%.2f", vpt, hpt, maxcsv, mincsv, dPhi, minhmass, maxhmass);
+    TCut cutmc = "";
     TCut cutdata = cutmc;
 
     TString var      = "HCSV_mass";

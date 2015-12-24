@@ -759,8 +759,9 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     //TString indir = "root://cmsxrootd.fnal.gov///store/user/cmsdas/2016/Hbb/heppy_v14/"; //for /eos/uscms/store/user/cmsdas/...
     //TString indir = "root://cmsxrootd.fnal.gov///store/user/lpchbb/HeppyNtuples/V14/";
     //TString indir = "/eos/uscms/store/user/lpchbb/HeppyNtuples/V14/";
-    TString indir = "/eos/uscms/store/user/cmsdas/2016/Hbb/heppy_v14/skims/";
+    //TString indir = "/eos/uscms/store/user/cmsdas/2016/Hbb/heppy_v14/skims/";
     //TString indir = "root://cmsxrootd.fnal.gov///store/user/cmsdas/2016/Hbb/heppy_v14/skims/"; 
+    TString indir = "root://cmsxrootd-site.fnal.gov///store/user/cmsdas/2016/Hbb/heppy_v14/skims/";
     TString prefix = "skim_";
     //TString prefix = "";
     TString suffix = ".root";
@@ -937,10 +938,6 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     }
 
     // Data_____________________________________________________________________
-    // NOTE: for Zmm and Wmn, use the default "SingleMu"
-    // NOTE: for Wen, change both "SingleMu" to "SingleEl"
-    // NOTE: for Zee, change both "SingleMu" to "DoubleEl"
-    // NOTE: for Znn, change both "SingleMu" to "MET"
     if (loadData) {
         TChain data_obs_(treename);
         data_obs_.Add(indir + prefix + "MET" + suffix);
