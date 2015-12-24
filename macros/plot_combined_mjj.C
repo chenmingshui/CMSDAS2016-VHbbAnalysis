@@ -82,7 +82,7 @@ void MakePlots(const std::vector<TString>& channels,
 
     TString dir      = "datacards/";
     TString prefix   = "vhbb_shapes_";
-    TString suffix   = "_8TeV.root";
+    TString suffix   = "_13TeV.root";
     TString title    = "m(jj) [GeV]";
 
     bool plotSig      = true;
@@ -320,7 +320,7 @@ void MakePlots(const std::vector<TString>& channels,
     latex->SetTextSize(0.052);
     latex->DrawLatex(0.19, 0.89, "CMS Preliminary");
     latex->SetTextSize(0.04);
-    latex->DrawLatex(0.19, 0.84, "#sqrt{s} = 8 TeV, L = 18.9 fb^{-1}");
+    latex->DrawLatex(0.19, 0.84, "#sqrt{s} = 13 TeV, L = 1.3 fb^{-1}");
     // NOTE: change this to your channel
     latex->DrawLatex(0.19, 0.79, "Z(#mu#bar{#mu})H(b#bar{b})");
     //latex->DrawLatex(0.19, 0.79, "Z(e#bar{e})H(b#bar{b})");
