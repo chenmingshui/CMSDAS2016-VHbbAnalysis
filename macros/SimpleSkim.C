@@ -18,7 +18,7 @@ void SimpleSkim(TString process)
 
     //TString add_str = "/eos/uscms/store/user/lpchbb/HeppyNtuples/V14/";//mc
     //TString add_str = "/eos/uscms/store/user/lpchbb/HeppyNtuples/V15/";//data
-    //TString add_str = "root://cmsxrootd.fnal.gov///store/user/lpchbb/HeppyNtuples/V15/";//data
+    //TString add_str = "/wk3/cmsdas/store/user/lpchbb/HeppyNtuples/V15/";//data
     //TString add_str = "root://cmseos.fnal.gov///store/user/lpchbb/HeppyNtuples/V15/";//data
     TString add_str = "root://cmseos.fnal.gov///store/user/lpchbb/HeppyNtuples/V14/";//MC
     add_str += process;
@@ -32,7 +32,7 @@ void SimpleSkim(TString process)
 
     // Make output directory if it doesn't exist
     //TString outdir = "/eos/uscms/store/user/cmsdas/2016/Hbb/heppy_v14/skims/";
-    //TString outdir = "root://cmsxrootd.fnal.gov///store/user/cmsdas/2016/Hbb/heppy_v14/skims/";
+    //TString outdir = "/wk3/cmsdas/store/user/cmsdas/2016/Hbb/heppy_v14/skims/";
     TString outdir = "root://cmseos.fnal.gov///store/user/cmsdas/2016/Hbb/heppy_v14/skims/";
     //TString outdir = "/uscms_data/d2/kreis/";
     if (gSystem->AccessPathName(outdir))

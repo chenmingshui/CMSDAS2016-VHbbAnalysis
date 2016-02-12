@@ -756,12 +756,12 @@ Events::~Events() {
 
 void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
     std::cout << "Begin Events::read " << std::endl;
-    //TString indir = "root://cmsxrootd.fnal.gov///store/user/cmsdas/2016/Hbb/heppy_v14/"; //for /eos/uscms/store/user/cmsdas/...
-    //TString indir = "root://cmsxrootd.fnal.gov///store/user/lpchbb/HeppyNtuples/V14/";
+    //TString indir = "/wk3/cmsdas/store/user/cmsdas/2016/Hbb/heppy_v14/"; //for /eos/uscms/store/user/cmsdas/...
+    //TString indir = "/wk3/cmsdas/store/user/lpchbb/HeppyNtuples/V14/";
     //TString indir = "/eos/uscms/store/user/lpchbb/HeppyNtuples/V14/";
     //TString indir = "/eos/uscms/store/user/cmsdas/2016/Hbb/heppy_v14/skims/";
-    //TString indir = "root://cmsxrootd.fnal.gov///store/user/cmsdas/2016/Hbb/heppy_v14/skims/"; 
-    TString indir = "root://cmsxrootd-site.fnal.gov///store/user/cmsdas/2016/Hbb/heppy_v14/skims/"; 
+    //TString indir = "/wk3/cmsdas/store/user/cmsdas/2016/Hbb/heppy_v14/skims/"; 
+    TString indir = "/wk3/cmsdas/store/user/cmsdas/2016/Hbb/heppy_v14/skims/"; 
     TString prefix = "skim_";
     //TString prefix = "";
     TString suffix = ".root";
