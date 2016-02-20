@@ -815,6 +815,7 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
       WjLF_.Add(indir + prefix + "WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
       TTree* WjLF_temp = (TTree *) WjLF_.CopyTree(cutmc_all);//Workaround, to be understood why cutmc_all+cutLF crashes
       WjLF = (TTree *) WjLF_temp->CopyTree(cutLF);
+	delete WjLF_temp;
       lumi_WjLF = lumis["WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
       std::clog << "... DONE: WjLF copy tree. N=" << WjLF->GetEntries() << std::endl;
 
@@ -822,6 +823,7 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
         WjHF_.Add(indir + prefix + "WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
 	TTree* WjHF_temp = (TTree *) WjHF_.CopyTree(cutmc_all);
         WjHF = (TTree *) WjHF_temp->CopyTree(cutHF);
+	delete WjHF_temp
         lumi_WjHF = lumis["WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
         std::clog << "... DONE: WjHF copy tree. N=" << WjHF->GetEntries() << std::endl;
     }
@@ -833,6 +835,7 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
         ZjLF_.Add(indir + prefix + "DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
         TTree* ZjLF_temp = (TTree *) ZjLF_.CopyTree(cutmc_all);
 	ZjLF = (TTree *) ZjLF_temp->CopyTree(cutLF);
+	delete ZjLF_temp;
         lumi_ZjLF = lumis["DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
         //ZjLF_.Add(indir + prefix + "ZJetsPtZ100" + suffix);
         //ZjLF = (TTree *) ZjLF_.CopyTree(cutmc_all + cutLF);
@@ -845,6 +848,7 @@ void Events::read(TCut cutmc_all, TCut cutdata_all, TString processes) {
         ZjHF_.Add(indir + prefix + "DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8" + suffix);
         TTree* ZjHF_temp = (TTree *) ZjHF_.CopyTree(cutmc_all);
 	ZjHF = (TTree *) ZjHF_temp->CopyTree(cutHF);
+	delete ZjHF_temp;
         lumi_ZjHF = lumis["DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"];
         //ZjHF_.Add(indir + prefix + "ZJetsPtZ100" + suffix);
         //ZjHF = (TTree *) ZjHF_.CopyTree(cutmc_all + cutHF);
